@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:amplify_flutter/amplify.dart';
-import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
+//import 'package:amplify_analytics_pinpoint/amplify_analytics_pinpoint.dart';
+import '../widgets/sign_in_widget.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
-import '../../amplify/amplifyconfiguration.dart';
+import 'package:amplify_core/amplify_core.dart';
+import '../../amplifyconfiguration.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({this.title});
 
-  String title;
+  final String title;
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -25,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     //AmplifyAnalyticsPinpoint analyticsPlugin = AmplifyAnalyticsPinpoint();
     AmplifyAuthCognito authPlugin = AmplifyAuthCognito();
     //Check Amplify Docs to see more plugins
-    Amplify.addPlugin(authPlugin)
+    Amplify.addPlugin(authPlugin);
 
 // Once Plugins are added, configure Amplify
     // Note: Amplify can only be configured once.
@@ -45,6 +47,11 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SignInWidget(),
+          MaterialButton(
+              color: Colors.green, child: Text("Sign in"), onPressed: () {})
+        ],
       ),
     );
   }
