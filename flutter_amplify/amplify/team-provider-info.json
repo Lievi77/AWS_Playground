@@ -10,6 +10,11 @@
       "StackName": "amplify-flutteramplify-dev-130348",
       "StackId": "arn:aws:cloudformation:us-east-1:586591424125:stack/amplify-flutteramplify-dev-130348/5b2710e0-b4d6-11eb-926b-12189cd24959",
       "AmplifyAppId": "d3lc6ofo8cs5a7"
+    },
+    "categories": {
+      "auth": {
+        "flutteramplify8ce425d1": {}
+      }
     }
   }
 }

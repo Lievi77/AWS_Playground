@@ -22,10 +22,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _configureAmplify() async {
     // Add Pinpoint and Cognito Plugins, or any other plugins you want to use
-    AmplifyAnalyticsPinpoint analyticsPlugin = AmplifyAnalyticsPinpoint();
+    //AmplifyAnalyticsPinpoint analyticsPlugin = AmplifyAnalyticsPinpoint();
     AmplifyAuthCognito authPlugin = AmplifyAuthCognito();
     //Check Amplify Docs to see more plugins
-    Amplify.addPlugins([authPlugin, analyticsPlugin]);
+    Amplify.addPlugin(authPlugin)
 
 // Once Plugins are added, configure Amplify
     // Note: Amplify can only be configured once.
@@ -39,6 +39,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+      ),
+    );
   }
 }
