@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_amplify/business_logic/auth_bloc.dart';
 import 'package:flutter_amplify/router/app_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import './presentation/screens/home_screen.dart';
+import './presentation/screens/sign_in_screen.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_amplify/constants/constants.dart';
 
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // Wrapping the material app with blocProvider will grant EVERY screen access to a bloc;
     return BlocProvider<AuthBloc>(
-      create: (context) => AuthBloc(),
+      create: (context) => AuthBloc(), //AuthBloc is now globally available
       child: MaterialApp(
         title: 'AWS Amplify Playground',
         theme: ThemeData(
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
         ),
 
         onGenerateRoute: _appRouter.onGenerateRoute,
-        initialRoute: homeRoute,
+        initialRoute: signUpRoute,
         //home: HomeScreen(title: 'Flutter Amplify Login'),
       ),
     );
