@@ -5,6 +5,7 @@ import '../widgets/sign_in_widget.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_core/amplify_core.dart';
 import '../../amplifyconfiguration.dart';
+import 'package:flutter_amplify/constants/constants.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({this.title});
@@ -48,9 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SignInWidget(),
-          MaterialButton(
-              color: Colors.green, child: Text("Sign in"), onPressed: () {})
+          SignInWidget(nextPage: feedRoute),
         ],
       ),
     );

@@ -13,8 +13,20 @@ class _UserFeedState extends State<UserFeed> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [Text("Some Feed")],
+      body: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text("Some Feed"),
+            MaterialButton(
+                color: Colors.green,
+                child: Text("Return to previous screen"),
+                onPressed: () {
+                  Navigator.pop(context);
+                })
+          ],
+        ),
       ),
     );
   }
