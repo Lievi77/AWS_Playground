@@ -6,6 +6,8 @@ import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_datastore/amplify_datastore.dart';
 import 'amplifyconfiguration.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_appsync/business/auth_cubit.dart';
 
 void main() {
   runApp(MyApp());
@@ -35,6 +37,7 @@ class _MyAppState extends State<MyApp> {
       // but this will be sufficient for the purposes of this tutorial
       print('An error occurred while configuring Amplify: $e');
     }
+    print("~~~~ Amplify Init Successful");
   }
 
   void _initApp() async {
@@ -55,7 +58,14 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginScreen(title: 'Flutter Demo Home Page'),
+      home: Scaffold(
+          appBar: AppBar(
+            title: Text("My App"),
+          ),
+          body: BlocProvider<AuthCubit>(
+            create: (context) => AuthCubit(),
+            child: LoginScreen(title: 'Flutter Demo Home Page'),
+          )),
     );
   }
 }
