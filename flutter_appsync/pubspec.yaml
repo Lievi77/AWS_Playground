@@ -24,6 +24,7 @@ dependencies:
   amplify_datastore: <1.0.0
   amplify_core: <1.0.0
   amplify_auth_cognito: <1.0.0
+  amplify_storage_s3: <1.0.0
   bloc: ^7.0.0
   bloc_test: ^8.0.2
   test:

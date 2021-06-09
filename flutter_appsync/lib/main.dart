@@ -1,3 +1,4 @@
+import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_appsync/presentation/login_screen.dart';
 import 'package:amplify_flutter/amplify.dart';
@@ -9,6 +10,7 @@ import 'amplifyconfiguration.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_appsync/business/auth_cubit.dart';
 import 'presentation/feed_screen.dart';
+import 'models/ModelProvider.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,11 +25,19 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final AmplifyAPI _amplifyAPI = AmplifyAPI();
   final AmplifyAuthCognito _amplifyAuthCognito = AmplifyAuthCognito();
+  final AmplifyDataStore _amplifyDataStore =
+      AmplifyDataStore(modelProvider: ModelProvider.instance);
+  final AmplifyStorageS3 _amplifyStorageS3 = AmplifyStorageS3();
 
   Future<void> _amplifyConfig() async {
     try {
       // add Amplify plugins
-      await Amplify.addPlugins([_amplifyAPI, _amplifyAuthCognito]);
+      await Amplify.addPlugins([
+        _amplifyAPI,
+        _amplifyAuthCognito,
+        _amplifyStorageS3,
+        _amplifyDataStore
+      ]);
 
       // configure Amplify
       //

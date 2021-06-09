@@ -1,9 +1,11 @@
 type Post @model
-  @key(name: "byUser", fields: ["ownerID", "content"]){
+  @key(name: "byUser", fields: ["authorId", "content"]){
   id: ID!
   title: String
   content: String
-  ownerID: ID!
+  authorId: ID!
+  # Has one relationship example
+  author: User @connection(fields: ["authorId"])
 }
 
 type User @model{
