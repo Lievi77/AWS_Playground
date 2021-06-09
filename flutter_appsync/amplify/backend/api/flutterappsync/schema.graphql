@@ -1,5 +1,18 @@
-type Todo @model {
+type Post @model
+  @key(name: "byUser", fields: ["ownerID", "content"]){
   id: ID!
-  name: String!
-  description: String
+  title: String
+  content: String
+  ownerID: ID!
+}
+
+type User @model{
+  id: ID!
+  username: String!
+  name: String
+  lastName: String
+  # An example of one-to-many relationships
+  # Notice that the keyname abides to: "list all posts byUser"
+  # The fields array is the primary key(s)
+  posts: [Post] @connection(keyName: "byUser", fields:["id"])
 }

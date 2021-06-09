@@ -8,6 +8,7 @@ import 'package:amplify_datastore/amplify_datastore.dart';
 import 'amplifyconfiguration.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_appsync/business/auth_cubit.dart';
+import 'presentation/feed_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -44,9 +45,16 @@ class _MyAppState extends State<MyApp> {
     await _amplifyConfig();
   }
 
+  Widget buildLoginScreen() {
+    return LoginScreen(title: 'Flutter Demo Home Page');
+  }
+
+  Widget buildFeedScreen() {
+    return FeedScreen();
+  }
+
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _initApp();
   }
@@ -64,7 +72,7 @@ class _MyAppState extends State<MyApp> {
           ),
           body: BlocProvider<AuthCubit>(
             create: (context) => AuthCubit(),
-            child: LoginScreen(title: 'Flutter Demo Home Page'),
+            child: buildFeedScreen(),
           )),
     );
   }

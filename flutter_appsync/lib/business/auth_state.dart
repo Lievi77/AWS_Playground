@@ -6,15 +6,13 @@ abstract class AuthState {}
 class AuthInitial extends AuthState {}
 
 class AuthSuccess extends AuthState {
+  final UserCredentials currentUser;
 
-  UserCredentials currentUser;
-
-  AuthSuccess({this.currentUser})
-
+  AuthSuccess({this.currentUser});
 }
 
 class AuthError extends AuthState {
-  String message;
+  final String message;
 
   AuthError(this.message);
 }

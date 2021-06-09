@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_appsync/business/auth_cubit.dart';
+import 'package:flutter_login/flutter_login.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({this.title});
@@ -49,8 +50,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter some text';
-                  } else if (!value.contains('@')) {
-                    return 'Enter a valid email';
                   }
                   return null; //a valid form always returns null
                 },
@@ -103,14 +102,18 @@ class _LoginScreenState extends State<LoginScreen> {
       child: BlocConsumer<AuthCubit, AuthState>(listener: (context, state) {
         if (state is AuthSuccess) {
           //redirect to feed page
+
+          print("Success");
         }
       }, builder: (context, state) {
         if (state is AuthInitial) {
           return buildSignInForm(context, _formKey, user, password);
         } else if (state is AuthLoading) {
           return buildLoadingIndicator();
-        } else {
+        } else if (state is AuthError) {
           //(state is AuthError)
+
+          print("${state.message}");
           return buildSignInForm(
             context,
             _formKey,
@@ -118,6 +121,8 @@ class _LoginScreenState extends State<LoginScreen> {
             password,
           );
         }
+        //(state is AuthSuccess)
+        return buildSignInForm(context, _formKey, user, password);
       }),
     );
   }

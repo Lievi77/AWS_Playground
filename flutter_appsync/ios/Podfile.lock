@@ -58,8 +58,17 @@ PODS:
   - AWSPluginsCore (1.9.3):
     - Amplify (= 1.9.3)
     - AWSCore (~> 2.24.0)
+  - bluetooth_helper (0.0.1):
+    - Flutter
   - Flutter (1.0.0)
+  - flutter_blue (0.0.1):
+    - Flutter
+    - flutter_blue/Protos (= 0.0.1)
+  - flutter_blue/Protos (0.0.1):
+    - Flutter
+    - Protobuf (~> 3.11.4)
   - ObjectMapper (4.2.0)
+  - Protobuf (3.11.4)
   - SQLite.swift (0.12.2):
     - SQLite.swift/standard (= 0.12.2)
   - SQLite.swift/standard (0.12.2)
@@ -71,7 +80,9 @@ DEPENDENCIES:
   - amplify_core (from `.symlinks/plugins/amplify_core/ios`)
   - amplify_datastore (from `.symlinks/plugins/amplify_datastore/ios`)
   - amplify_flutter (from `.symlinks/plugins/amplify_flutter/ios`)
+  - bluetooth_helper (from `.symlinks/plugins/bluetooth_helper/ios`)
   - Flutter (from `Flutter`)
+  - flutter_blue (from `.symlinks/plugins/flutter_blue/ios`)
 
 SPEC REPOS:
   trunk:
@@ -85,6 +96,7 @@ SPEC REPOS:
     - AWSMobileClient
     - AWSPluginsCore
     - ObjectMapper
+    - Protobuf
     - SQLite.swift
     - Starscream
 
@@ -99,8 +111,12 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/amplify_datastore/ios"
   amplify_flutter:
     :path: ".symlinks/plugins/amplify_flutter/ios"
+  bluetooth_helper:
+    :path: ".symlinks/plugins/bluetooth_helper/ios"
   Flutter:
     :path: Flutter
+  flutter_blue:
+    :path: ".symlinks/plugins/flutter_blue/ios"
 
 SPEC CHECKSUMS:
   Amplify: b2cc6f4f1a5868c8f86ed54db09809bdabb2b34f
@@ -117,8 +133,11 @@ SPEC CHECKSUMS:
   AWSCore: 08a61ac2b1d98b2d43f59ee40c4bd68e58dfdea3
   AWSMobileClient: 6af7fff9e58f8d427acf3381cbbae2f0c34d52ab
   AWSPluginsCore: b88a0d6b56eb9dc16d627bd48522cc40d5a8971e
+  bluetooth_helper: 293887e9f0723aa943044f57abf077d6c0ca9e93
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  flutter_blue: eeb381dc4727a0954dede73515f683865494b370
   ObjectMapper: 1eb41f610210777375fa806bf161dc39fb832b81
+  Protobuf: 176220c526ad8bd09ab1fb40a978eac3fef665f7
   SQLite.swift: d2b4642190917051ce6bd1d49aab565fe794eea3
   Starscream: 4bb2f9942274833f7b4d296a55504dcfc7edb7b0
 

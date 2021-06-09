@@ -10,6 +10,7 @@ class UserCredentials {
   String password;
   bool isAuth;
 
-  //TODO: SETTER for isauth
-
+  set authorization(bool isAuth) {
+    this.isAuth = isAuth;
+  }
 }
