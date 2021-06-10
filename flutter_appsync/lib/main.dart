@@ -6,11 +6,13 @@ import 'dart:async';
 import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_datastore/amplify_datastore.dart';
+import 'package:flutter_appsync/presentation/router/route_constants.dart';
 import 'amplifyconfiguration.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_appsync/business/auth_cubit.dart';
 import 'presentation/feed_screen.dart';
 import 'models/ModelProvider.dart';
+import 'presentation/router/app_router.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,11 +25,15 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final AppRouter _appRouter = AppRouter();
+
+  // AWS STUFF BEGINS
   final AmplifyAPI _amplifyAPI = AmplifyAPI();
   final AmplifyAuthCognito _amplifyAuthCognito = AmplifyAuthCognito();
   final AmplifyDataStore _amplifyDataStore =
       AmplifyDataStore(modelProvider: ModelProvider.instance);
   final AmplifyStorageS3 _amplifyStorageS3 = AmplifyStorageS3();
+  //AWS STUFF ENDS
 
   Future<void> _amplifyConfig() async {
     try {
@@ -76,14 +82,24 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Scaffold(
-          appBar: AppBar(
-            title: Text("My App"),
-          ),
-          body: BlocProvider<AuthCubit>(
-            create: (context) => AuthCubit(),
-            child: buildFeedScreen(),
-          )),
+      onGenerateRoute: _appRouter.onGenerateRoute,
+
+      //need to specify initial Route
+      initialRoute: FeedRoute,
+
+      // home: Scaffold(
+      //     appBar: AppBar(
+      //       title: Text("My App"),
+      //     ),
+      //     body: BlocProvider<AuthCubit>(
+      //       create: (context) => AuthCubit(),
+      //       child: buildLoginScreen(),
+      //     )),
     );
+  }
+
+  void dispose() {
+    _appRouter.dispose(); //good resource management
+    super.dispose();
   }
 }

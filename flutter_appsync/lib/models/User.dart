@@ -29,6 +29,7 @@ class User extends Model {
   final String name;
   final String lastName;
   final List<Post> posts;
+  final List<Comment> comments;
 
   @override
   getInstanceType() => classType;
@@ -43,20 +44,23 @@ class User extends Model {
       @required this.username,
       this.name,
       this.lastName,
-      this.posts});
+      this.posts,
+      this.comments});
 
   factory User(
       {String id,
       @required String username,
       String name,
       String lastName,
-      List<Post> posts}) {
+      List<Post> posts,
+      List<Comment> comments}) {
     return User._internal(
         id: id == null ? UUID.getUUID() : id,
         username: username,
         name: name,
         lastName: lastName,
-        posts: posts != null ? List.unmodifiable(posts) : posts);
+        posts: posts != null ? List.unmodifiable(posts) : posts,
+        comments: comments != null ? List.unmodifiable(comments) : comments);
   }
 
   bool equals(Object other) {
@@ -71,7 +75,8 @@ class User extends Model {
         username == other.username &&
         name == other.name &&
         lastName == other.lastName &&
-        DeepCollectionEquality().equals(posts, other.posts);
+        DeepCollectionEquality().equals(posts, other.posts) &&
+        DeepCollectionEquality().equals(comments, other.comments);
   }
 
   @override
@@ -96,13 +101,15 @@ class User extends Model {
       String username,
       String name,
       String lastName,
-      List<Post> posts}) {
+      List<Post> posts,
+      List<Comment> comments}) {
     return User(
         id: id ?? this.id,
         username: username ?? this.username,
         name: name ?? this.name,
         lastName: lastName ?? this.lastName,
-        posts: posts ?? this.posts);
+        posts: posts ?? this.posts,
+        comments: comments ?? this.comments);
   }
 
   User.fromJson(Map<String, dynamic> json)
@@ -114,6 +121,11 @@ class User extends Model {
             ? (json['posts'] as List)
                 .map((e) => Post.fromJson(new Map<String, dynamic>.from(e)))
                 .toList()
+            : null,
+        comments = json['comments'] is List
+            ? (json['comments'] as List)
+                .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e)))
+                .toList()
             : null;
 
   Map<String, dynamic> toJson() => {
@@ -121,7 +133,8 @@ class User extends Model {
         'username': username,
         'name': name,
         'lastName': lastName,
-        'posts': posts?.map((e) => e?.toJson())?.toList()
+        'posts': posts?.map((e) => e?.toJson())?.toList(),
+        'comments': comments?.map((e) => e?.toJson())?.toList()
       };
 
   static final QueryField ID = QueryField(fieldName: "user.id");
@@ -132,6 +145,10 @@ class User extends Model {
       fieldName: "posts",
       fieldType: ModelFieldType(ModelFieldTypeEnum.model,
           ofModelName: (Post).toString()));
+  static final QueryField COMMENTS = QueryField(
+      fieldName: "comments",
+      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
+          ofModelName: (Comment).toString()));
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "User";
@@ -159,6 +176,12 @@ class User extends Model {
         isRequired: false,
         ofModelName: (Post).toString(),
         associatedKey: Post.AUTHOR));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+        key: User.COMMENTS,
+        isRequired: false,
+        ofModelName: (Comment).toString(),
+        associatedKey: Comment.AUTHOR));
   });
 }
 

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_appsync/presentation/feed_screen.dart';
+import 'package:flutter_appsync/presentation/router/route_constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_appsync/business/auth_cubit.dart';
 import 'package:flutter_login/flutter_login.dart';
@@ -98,32 +100,40 @@ class _LoginScreenState extends State<LoginScreen> {
     TextEditingController user = TextEditingController();
     TextEditingController password = TextEditingController();
 
-    return Center(
-      child: BlocConsumer<AuthCubit, AuthState>(listener: (context, state) {
-        if (state is AuthSuccess) {
-          //redirect to feed page
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("My Login Screen"),
+      ),
+      body: Center(
+        child: BlocConsumer<AuthCubit, AuthState>(listener: (context, state) {
+          if (state is AuthSuccess) {
+            //redirect to feed page
 
-          print("Success");
-        }
-      }, builder: (context, state) {
-        if (state is AuthInitial) {
+            print(
+                "Success, logged as ${state.currentUser.username} , ${state.currentUser.password}");
+
+            Navigator.pushNamed(context, FeedRoute);
+          }
+        }, builder: (context, state) {
+          if (state is AuthInitial) {
+            return buildSignInForm(context, _formKey, user, password);
+          } else if (state is AuthLoading) {
+            return buildLoadingIndicator();
+          } else if (state is AuthError) {
+            //(state is AuthError)
+
+            print("${state.message}");
+            return buildSignInForm(
+              context,
+              _formKey,
+              user,
+              password,
+            );
+          }
+          //(state is AuthSuccess)
           return buildSignInForm(context, _formKey, user, password);
-        } else if (state is AuthLoading) {
-          return buildLoadingIndicator();
-        } else if (state is AuthError) {
-          //(state is AuthError)
-
-          print("${state.message}");
-          return buildSignInForm(
-            context,
-            _formKey,
-            user,
-            password,
-          );
-        }
-        //(state is AuthSuccess)
-        return buildSignInForm(context, _formKey, user, password);
-      }),
+        }),
+      ),
     );
   }
 }

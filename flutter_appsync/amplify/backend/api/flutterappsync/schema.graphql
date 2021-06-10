@@ -1,3 +1,17 @@
+type User @model{
+  id: ID!
+  username: String!
+  name: String
+  lastName: String
+  # An example of one-to-many relationships
+  # Notice that the keyname abides to: "list all posts byUser"
+  # The fields array is the primary key(s)
+  posts: [Post] @connection(keyName: "byUser", fields:["id"])
+  comments: [Comment] @connection(keyName: "byUser", fields:["id"])
+}
+
+
+
 type Post @model
   @key(name: "byUser", fields: ["authorId", "content"]){
   id: ID!
@@ -8,13 +22,13 @@ type Post @model
   author: User @connection(fields: ["authorId"])
 }
 
-type User @model{
-  id: ID!
-  username: String!
-  name: String
-  lastName: String
-  # An example of one-to-many relationships
-  # Notice that the keyname abides to: "list all posts byUser"
-  # The fields array is the primary key(s)
-  posts: [Post] @connection(keyName: "byUser", fields:["id"])
-}
+
+
+
+ type Comment @model
+ @key(name: "byUser", fields: ["authorId", "text"]){
+   id: ID!
+   text: String!
+   authorId: ID!
+   author: User @connection(fields : ["authorId"])
+ }
