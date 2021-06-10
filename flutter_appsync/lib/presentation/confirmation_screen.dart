@@ -1,43 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_appsync/presentation/feed_screen.dart';
-import 'package:flutter_appsync/presentation/router/route_constants.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_appsync/business/auth_cubit.dart';
-import 'package:flutter_login/flutter_login.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'router/route_constants.dart';
 
-class LoginScreen extends StatefulWidget {
-  LoginScreen({this.title});
-
-  final String title;
-
-  @override
-  _LoginScreenState createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  /*
-  The Following Snippets were used to test if Login Screen displayed properly
-
-  final users = const {
-    'dribbble@gmail.com': '12345',
-    'hunter@gmail.com': 'hunter',
-  };
-
-  Future<String> login(LoginData data) {
-    return Future.delayed(Duration(milliseconds: 1000))
-        .then((value) => data.name);
-  }
-
-  Future<String> _recoverPassword(String name) {
-    print('Name: $name');
-    return Future.delayed(Duration(milliseconds: 1000)).then((_) {
-      if (!users.containsKey(name)) {
-        return 'Username not exists';
-      }
-      return null;
-    });
-  }*/
-
+class ConfirmScreen extends StatelessWidget {
   Widget buildSignInForm(BuildContext context, var _formKey,
       TextEditingController user, TextEditingController password) {
     return Center(
@@ -75,8 +41,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     // If the form is valid, display a snackbar. In the real world,
                     // you'd often call a server or save the information in a database.
                     print("~~~OnPressed : ${user.text} , ${password.text}");
-                    BlocProvider.of<AuthCubit>(context)
-                        .authRequest(user.text.trim(), password.text.trim());
                   }
                   // ScaffoldMessenger.of(context)
                   //    .showSnackBar(SnackBar(content: Text('Processing Data')));
@@ -99,10 +63,9 @@ class _LoginScreenState extends State<LoginScreen> {
     final _formKey = GlobalKey<FormState>(); //to ID the form
     TextEditingController user = TextEditingController();
     TextEditingController password = TextEditingController();
-
     return Scaffold(
       appBar: AppBar(
-        title: Text("My Login Screen"),
+        title: Text("Confirm Account"),
       ),
       body: Center(
         child: BlocConsumer<AuthCubit, AuthState>(listener: (context, state) {

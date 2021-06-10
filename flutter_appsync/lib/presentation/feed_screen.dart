@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'constants.dart';
 import 'package:flutter_appsync/models/Post.dart';
+import 'package:flutter_appsync/business/feed_cubit.dart';
 
 class FeedScreen extends StatefulWidget {
   @override
@@ -28,55 +30,58 @@ class _FeedScreenState extends State<FeedScreen> {
         },
         child: Scaffold(
           appBar: AppBar(title: Text("My Feed")),
-          body: Container(
-            child: ListView.builder(
-              itemCount: posts.length,
-              itemBuilder: (context, index) {
-                return Container(
-                  decoration: kPostContainerDecoration,
-                  margin: EdgeInsets.symmetric(
-                    horizontal: 5.0,
-                    vertical: 5.0,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(posts[index].data()["name"]),
+          body: BlocProvider<FeedCubit>(
+            create: (context) => FeedCubit(),
+            child: Container(
+              child: ListView.builder(
+                itemCount: posts.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    decoration: kPostContainerDecoration,
+                    margin: EdgeInsets.symmetric(
+                      horizontal: 5.0,
+                      vertical: 5.0,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(posts[index].data()["name"]),
 
-                      SizedBox(
-                        height: 5.0,
-                      ),
+                        SizedBox(
+                          height: 5.0,
+                        ),
 
-                      //We will use FadeIn Image to display a placeholder while loading
+                        //We will use FadeIn Image to display a placeholder while loading
 
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: FadeInImage(
-                            placeholder: AssetImage("assets/placeholder.jpg"),
-                            image:
-                                NetworkImage(posts[index].data()["photoUrl"])),
-                      ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: FadeInImage(
+                              placeholder: AssetImage("assets/placeholder.jpg"),
+                              image: NetworkImage(
+                                  posts[index].data()["photoUrl"])),
+                        ),
 
-                      SizedBox(
-                        height: 5.0,
-                      ),
+                        SizedBox(
+                          height: 5.0,
+                        ),
 
-                      RichText(
-                        softWrap: true,
-                        text: TextSpan(style: kTextSpanStyle, children: [
-                          TextSpan(
-                              text: posts[index].data()["name"],
-                              style: kUserCaptionDisplayStyle),
-                          TextSpan(
-                            text: "   " + posts[index].data()["caption"],
-                            style: kCaptionDisplayStyle,
-                          ),
-                        ]),
-                      ),
-                    ],
-                  ),
-                );
-              },
+                        RichText(
+                          softWrap: true,
+                          text: TextSpan(style: kTextSpanStyle, children: [
+                            TextSpan(
+                                text: posts[index].data()["name"],
+                                style: kUserCaptionDisplayStyle),
+                            TextSpan(
+                              text: "   " + posts[index].data()["caption"],
+                              style: kCaptionDisplayStyle,
+                            ),
+                          ]),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         ),

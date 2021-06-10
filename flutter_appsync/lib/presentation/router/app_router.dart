@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_appsync/business/auth_cubit.dart';
+import 'package:flutter_appsync/presentation/confirmation_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../login_screen.dart';
 import '../feed_screen.dart';
+import '../signup_screen.dart';
 import 'route_constants.dart';
 import '../home_screen.dart';
 
@@ -20,7 +22,7 @@ class AppRouter {
                 //use .value whenever you want to provide an already existent instance
                 HomeScreen());
 
-      case LogInRoute:
+      case SignInRoute:
         return MaterialPageRoute(
             builder: (_) => BlocProvider.value(
                   value: _authCubit,
@@ -35,6 +37,17 @@ class AppRouter {
                   child: FeedScreen(),
                 ));
         break;
+      case ConfirmRoute:
+        return MaterialPageRoute(
+            builder: (_) =>
+                BlocProvider.value(value: _authCubit, child: ConfirmScreen()));
+        break;
+      case SignUpRoute:
+        return MaterialPageRoute(
+            builder: (_) => BlocProvider.value(
+                  value: _authCubit,
+                  child: SignUpScreen(),
+                ));
       // case "/third":
       //   return MaterialPageRoute(
       //       builder: (_) => BlocProvider.value(

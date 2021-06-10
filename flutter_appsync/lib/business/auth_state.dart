@@ -6,9 +6,9 @@ abstract class AuthState {}
 class AuthInitial extends AuthState {}
 
 class AuthSuccess extends AuthState {
-  final UserCredentials currentUser;
+  final SignInResult res;
 
-  AuthSuccess({this.currentUser});
+  AuthSuccess({@required this.res});
 }
 
 class AuthError extends AuthState {
@@ -18,3 +18,10 @@ class AuthError extends AuthState {
 }
 
 class AuthLoading extends AuthState {}
+
+//whenever we are prompted for an user changing password
+class AuthAwaitConfirm extends AuthState {
+  final SignInResult res;
+
+  AuthAwaitConfirm({@required this.res});
+}

@@ -1,21 +1,29 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 
 import 'auth_provider.dart' as AP;
-import 'package:flutter_appsync/data/user_credentials_model.dart';
 
 class AuthRepository {
   AP.AuthProvider _cognitoAPI = AP.AuthProvider();
 
-  Future<UserCredentials> signIn(username, password) async {
-    UserCredentials currentUser =
-        UserCredentials(username: username, password: password, isAuth: false);
+  Future<SignInResult> attemptSignIn(username, password) async {
+    SignInResult res = await _cognitoAPI.attemptSignIn(username, password);
 
-    SignInResult res = await _cognitoAPI.attemptLogin(currentUser);
+    print("-> In Repo Sign In: ${res.isSignedIn} ");
 
-    currentUser.authorization = res.isSignedIn;
+    return res;
+  }
 
-    print("-> In Repo Sign In: ${currentUser.isAuth} ");
+  Future<SignUpResult> attemptSignUp(username, password) async {
+    SignUpResult res = await _cognitoAPI.attemptSignUp(username, password);
 
-    return currentUser;
+    return res;
+  }
+
+  Future<dynamic> attemptConfirmation(username, password) async {
+    var res = await _cognitoAPI.attemptConfirmation(username, password);
+
+    print("--> In Repo, attempting confirmation: ${res.isSignedIn}");
+
+    return res;
   }
 }

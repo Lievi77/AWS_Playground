@@ -9,13 +9,22 @@ class HomeScreen extends StatelessWidget {
         title: Text("My App"),
       ),
       body: Center(
-        child: MaterialButton(
-          child: Text("Go To Login"),
-          color: Colors.green,
-          onPressed: () {
-            print("I was called");
-            Navigator.pushNamed(context, LogInRoute);
-          },
+        child: Column(
+          children: [
+            MaterialButton(
+              child: Text("Sign In"),
+              color: Colors.green,
+              onPressed: () {
+                Navigator.pushNamed(context, SignInRoute);
+              },
+            ),
+            MaterialButton(
+                child: Text("Sign Up"),
+                color: Colors.green,
+                onPressed: () {
+                  Navigator.pushNamed(context, SignInRoute);
+                })
+          ],
         ),
       ),
     );

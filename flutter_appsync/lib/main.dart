@@ -1,5 +1,6 @@
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_appsync/presentation/home_screen.dart';
 import 'package:flutter_appsync/presentation/login_screen.dart';
 import 'package:amplify_flutter/amplify.dart';
 import 'dart:async';
