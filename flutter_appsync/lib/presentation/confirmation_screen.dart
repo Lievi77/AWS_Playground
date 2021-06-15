@@ -72,8 +72,6 @@ class ConfirmScreen extends StatelessWidget {
           if (state is AuthSuccess) {
             //redirect to feed page
 
-            print("Success, logged as ${state.res.isSignedIn} ");
-
             Navigator.pushNamed(context, FeedRoute);
           } else if (state is AuthAwaitConfirm) {
             print("~~ Awaiting Confirmation");

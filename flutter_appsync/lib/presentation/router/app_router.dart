@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_appsync/business/auth_cubit.dart';
+import 'package:flutter_appsync/business/connection_cubit.dart';
+import 'package:flutter_appsync/business/signup_cubit.dart';
 import 'package:flutter_appsync/presentation/confirmation_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../login_screen.dart';
@@ -11,6 +13,10 @@ import '../home_screen.dart';
 class AppRouter {
 //cubit declaration
 //  final CounterCubit _counterCubit = CounterCubit();
+
+//Architecture tip:
+// start with least dependent class -> end with most dependent class
+  final ConnectionCubit _connectionCubit = ConnectionCubit();
   final AuthCubit _authCubit = AuthCubit();
 
   Route onGenerateRoute(RouteSettings routeSettings) {
@@ -24,28 +30,48 @@ class AppRouter {
 
       case SignInRoute:
         return MaterialPageRoute(
-            builder: (_) => BlocProvider.value(
-                  value: _authCubit,
+            builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(
+                      value: _authCubit,
+                    ),
+                    BlocProvider.value(value: _connectionCubit)
+                  ],
                   child: LoginScreen(),
                 ));
         break;
       case FeedRoute:
         //only use Provider.value whenever you do not want to re-create a Bloc
         return MaterialPageRoute(
-            builder: (_) => BlocProvider.value(
-                  value: _authCubit,
-                  child: FeedScreen(),
+            builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(
+                      value: _authCubit,
+                    ),
+                    BlocProvider.value(value: _connectionCubit)
+                  ],
+                  child: LoginScreen(),
                 ));
         break;
       case ConfirmRoute:
         return MaterialPageRoute(
-            builder: (_) =>
-                BlocProvider.value(value: _authCubit, child: ConfirmScreen()));
+            builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(
+                      value: _authCubit,
+                    ),
+                    BlocProvider.value(value: _connectionCubit)
+                  ],
+                  child: LoginScreen(),
+                ));
         break;
       case SignUpRoute:
         return MaterialPageRoute(
-            builder: (_) => BlocProvider.value(
-                  value: _authCubit,
+            builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(value: _authCubit),
+                    BlocProvider.value(value: _connectionCubit)
+                  ],
                   child: SignUpScreen(),
                 ));
       // case "/third":

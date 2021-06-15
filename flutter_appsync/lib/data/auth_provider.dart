@@ -14,14 +14,19 @@ class AuthProvider {
   }
 
   Future<SignUpResult> attemptSignUp(String username, String password) async {
-    SignUpResult res =
-        await Amplify.Auth.signUp(username: username, password: password);
+    CognitoSignUpOptions opts =
+        //Must match your Cognito Schema. ie, what identifies a user?
+        CognitoSignUpOptions(userAttributes: {'email': username});
+
+    SignUpResult res = await Amplify.Auth.signUp(
+        username: username, password: password, options: opts);
 
     print("Sign up result (In Provider class: ${res.isSignUpComplete}");
 
     return res;
   }
 
+  //TODO: REGISTRATION FLOW
   Future<dynamic> attemptConfirmation(String username, String password) async {
     SignInResult res =
         await Amplify.Auth.signIn(username: username, password: password);

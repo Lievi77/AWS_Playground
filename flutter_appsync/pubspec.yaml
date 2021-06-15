@@ -29,10 +29,12 @@ dependencies:
   bloc_test: ^8.0.2
   test:
   flutter_login: ^2.0.0
-  equatable: ^2.0.2
+  equatable: ^2.0.3
   flutter_bloc: ^7.0.1
   flutter_blue: ^0.8.0 #bluetooth
   bluetooth_helper: ^0.1.5
+  connectivity_plus: ^1.0.3
+  json_serializable: ^4.1.3
 
 
 

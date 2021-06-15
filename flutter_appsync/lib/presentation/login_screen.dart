@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_appsync/business/connection_cubit.dart';
 import 'package:flutter_appsync/presentation/feed_screen.dart';
 import 'package:flutter_appsync/presentation/router/route_constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -108,8 +109,6 @@ class _LoginScreenState extends State<LoginScreen> {
         child: BlocConsumer<AuthCubit, AuthState>(listener: (context, state) {
           if (state is AuthSuccess) {
             //redirect to feed page
-
-            print("Success, logged as ${state.res.isSignedIn} ");
 
             Navigator.pushNamed(context, FeedRoute);
           } else if (state is AuthAwaitConfirm) {

@@ -16,6 +16,8 @@ class AuthRepository {
   Future<SignUpResult> attemptSignUp(username, password) async {
     SignUpResult res = await _cognitoAPI.attemptSignUp(username, password);
 
+    print("-> In Repo Sign In: ${res.isSignUpComplete} ");
+    print("-> In Repo, Next_step: ${res.nextStep.signUpStep}");
     return res;
   }
 

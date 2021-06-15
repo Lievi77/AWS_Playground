@@ -8,6 +8,7 @@ import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_datastore/amplify_datastore.dart';
 import 'package:flutter_appsync/presentation/router/route_constants.dart';
+import 'package:flutter_appsync/presentation/signup_screen.dart';
 import 'amplifyconfiguration.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_appsync/business/auth_cubit.dart';
@@ -86,7 +87,7 @@ class _MyAppState extends State<MyApp> {
       onGenerateRoute: _appRouter.onGenerateRoute,
 
       //need to specify initial Route
-      initialRoute: FeedRoute,
+      initialRoute: HomeRoute,
 
       // home: Scaffold(
       //     appBar: AppBar(

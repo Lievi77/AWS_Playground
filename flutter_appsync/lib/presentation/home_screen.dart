@@ -22,7 +22,7 @@ class HomeScreen extends StatelessWidget {
                 child: Text("Sign Up"),
                 color: Colors.green,
                 onPressed: () {
-                  Navigator.pushNamed(context, SignInRoute);
+                  Navigator.pushNamed(context, SignUpRoute);
                 })
           ],
         ),

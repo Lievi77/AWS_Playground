@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_appsync/business/auth_cubit.dart';
+import 'package:flutter_appsync/business/signup_cubit.dart';
 import 'package:flutter_appsync/presentation/router/route_constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -9,103 +11,68 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  Widget buildSignInForm(BuildContext context, var _formKey,
-      TextEditingController user, TextEditingController password) {
-    return Center(
-      child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              TextFormField(
-                controller: user,
-                // The validator receives the text that the user has entered.
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null; //a valid form always returns null
-                },
-              ),
-              TextFormField(
-                controller: password,
-
-                obscureText: true,
-                // The validator receives the text that the user has entered.
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null; //a valid form always returns null
-                },
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  // Validate returns true if the form is valid, or false otherwise.
-                  if (_formKey.currentState.validate()) {
-                    // If the form is valid, display a snackbar. In the real world,
-                    // you'd often call a server or save the information in a database.
-                    print("~~~OnPressed : ${user.text} , ${password.text}");
-                  }
-                  // ScaffoldMessenger.of(context)
-                  //    .showSnackBar(SnackBar(content: Text('Processing Data')));
-                },
-                child: Text('Submit'),
-              ),
-            ],
-          )),
-    );
-  }
-
-  Widget buildLoadingIndicator() {
-    return Center(
-      child: CircularProgressIndicator(),
-    );
-  }
+  final TextEditingController _usr_ctrller = TextEditingController();
+  final TextEditingController _psswd_ctrller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>(); //to ID the form
-    TextEditingController user = TextEditingController();
-    TextEditingController password = TextEditingController();
-
     return Scaffold(
       appBar: AppBar(
-        title: Text("My Login Screen"),
+        title: Text("Sign Up"),
       ),
       body: Center(
-        child: BlocConsumer<AuthCubit, AuthState>(listener: (context, state) {
-          if (state is AuthSuccess) {
-            //redirect to feed page
+        child: BlocConsumer<AuthCubit, AuthState>(
+          listener: (context, state) {
+            // TODO: implement listener
 
-            print("Success, logged as ${state.res.isSignedIn} ");
-
-            Navigator.pushNamed(context, FeedRoute);
-          } else if (state is AuthAwaitConfirm) {
-            print("~~ Awaiting Confirmation");
-
-            Navigator.pushNamed(context, ConfirmRoute);
-          }
-        }, builder: (context, state) {
-          if (state is AuthInitial) {
-            return buildSignInForm(context, _formKey, user, password);
-          } else if (state is AuthLoading) {
-            return buildLoadingIndicator();
-          } else if (state is AuthError) {
-            //(state is AuthError)
-
-            print("${state.message}");
-            return buildSignInForm(
-              context,
-              _formKey,
-              user,
-              password,
-            );
-          }
-          //(state is AuthSuccess)
-          return buildSignInForm(context, _formKey, user, password);
-        }),
+            if (state is AuthAwaitConfirm) {
+              print("I need conf");
+            }
+          },
+          builder: (context, state) {
+            return SignUpForm(
+                usr_ctrller: _usr_ctrller, psswd_ctrller: _psswd_ctrller);
+          },
+        ),
       ),
+    );
+  }
+}
+
+class SignUpForm extends StatelessWidget {
+  const SignUpForm({
+    Key key,
+    @required TextEditingController usr_ctrller,
+    @required TextEditingController psswd_ctrller,
+  })  : _usr_ctrller = usr_ctrller,
+        _psswd_ctrller = psswd_ctrller,
+        super(key: key);
+
+  final TextEditingController _usr_ctrller;
+  final TextEditingController _psswd_ctrller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Text("Username:"),
+        TextField(
+          controller: _usr_ctrller,
+        ),
+        Text("Password:"),
+        TextField(
+          controller: _psswd_ctrller,
+        ),
+        MaterialButton(
+          child: Text("Sign Up"),
+          color: Colors.deepOrange,
+          onPressed: () {
+            BlocProvider.of<AuthCubit>(context).attemptSignUp(
+                _usr_ctrller.text.trim(), _psswd_ctrller.text.trim());
+          },
+        )
+      ],
     );
   }
 }
