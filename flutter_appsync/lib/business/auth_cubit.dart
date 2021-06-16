@@ -14,7 +14,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   AuthRepository _authRepository = AuthRepository(); //local repository
 
-  Future<void> authRequest(String username, String password) async {
+  void authRequest(String username, String password) async {
     emit(AuthLoading()); //always emit a state
 
     print("~~~ In Cubit: $username, $password");
@@ -25,10 +25,13 @@ class AuthCubit extends Cubit<AuthState> {
           await _authRepository.attemptSignIn(username, password);
 
       if (res.nextStep.signInStep == "CONFIRM_SIGN_IN_WITH_NEW_PASSWORD") {
-        print("I am awaiting cobnf");
-        emit(AuthAwaitConfirm(res: res.nextStep.signInStep));
+        //print("I am awaiting cobnf");
+        emit(AuthAwaitConfirm(
+            res: res.nextStep.signInStep,
+            username: username,
+            deliveryMethod: res.nextStep.codeDeliveryDetails.destination));
       } else {
-        emit(AuthSuccess(res: res.nextStep.signInStep));
+        emit(AuthSuccess());
       }
     } on AuthException catch (e) {
       emit(AuthError(e.message));
@@ -36,7 +39,7 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   //bad practice, always build different cubits for different functionalities
-  Future<void> attemptSignUp(String username, String password) async {
+  void attemptSignUp(String username, String password) async {
     emit(AuthLoading());
 
     try {
@@ -44,7 +47,27 @@ class AuthCubit extends Cubit<AuthState> {
           await _authRepository.attemptSignUp(username, password);
 
       if (res.nextStep.signUpStep == "CONFIRM_SIGN_UP_STEP") {
-        emit(AuthAwaitConfirm(res: res.nextStep.signUpStep));
+        emit(AuthAwaitConfirm(
+            res: res.nextStep.signUpStep,
+            deliveryMethod: res.nextStep.codeDeliveryDetails.destination,
+            username: username));
+      }
+    } on AuthException catch (e) {
+      emit(AuthError(e.message));
+    }
+  }
+
+  void attemptConfirmation(String code, String username) async {
+    emit(AuthLoading());
+
+    try {
+      SignUpResult res =
+          await _authRepository.attemptConfirmation(code.trim(), username);
+
+      if (res.isSignUpComplete) {
+        emit(AuthSuccess());
+      } else {
+        emit(AuthError("Something went wrong"));
       }
     } on AuthException catch (e) {
       emit(AuthError(e.message));

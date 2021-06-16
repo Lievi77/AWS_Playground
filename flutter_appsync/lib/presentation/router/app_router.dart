@@ -62,7 +62,7 @@ class AppRouter {
                     ),
                     BlocProvider.value(value: _connectionCubit)
                   ],
-                  child: LoginScreen(),
+                  child: ConfirmationScreen(),
                 ));
         break;
       case SignUpRoute:

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_appsync/business/auth_cubit.dart';
 import 'package:flutter_appsync/business/signup_cubit.dart';
+import 'package:flutter_appsync/presentation/confirmation_screen.dart';
 import 'package:flutter_appsync/presentation/router/route_constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,7 +27,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             // TODO: implement listener
 
             if (state is AuthAwaitConfirm) {
-              print("I need conf");
+              Navigator.pushNamed(context, ConfirmRoute);
             }
           },
           builder: (context, state) {
@@ -68,6 +69,7 @@ class SignUpForm extends StatelessWidget {
           child: Text("Sign Up"),
           color: Colors.deepOrange,
           onPressed: () {
+            print("Submitting Sign Up");
             BlocProvider.of<AuthCubit>(context).attemptSignUp(
                 _usr_ctrller.text.trim(), _psswd_ctrller.text.trim());
           },

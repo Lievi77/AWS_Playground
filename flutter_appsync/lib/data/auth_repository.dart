@@ -21,10 +21,10 @@ class AuthRepository {
     return res;
   }
 
-  Future<dynamic> attemptConfirmation(username, password) async {
-    var res = await _cognitoAPI.attemptConfirmation(username, password);
+  Future<SignUpResult> attemptConfirmation(code, username) async {
+    SignUpResult res = await _cognitoAPI.attemptConfirmation(code, username);
 
-    print("--> In Repo, attempting confirmation: ${res.isSignedIn}");
+    print("--> In Repo, attempting confirmation: ${res.isSignUpComplete}");
 
     return res;
   }

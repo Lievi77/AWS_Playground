@@ -6,9 +6,7 @@ abstract class AuthState {}
 class AuthInitial extends AuthState {}
 
 class AuthSuccess extends AuthState {
-  final String res;
-
-  AuthSuccess({@required this.res});
+  AuthSuccess();
 }
 
 class AuthError extends AuthState {
@@ -22,6 +20,11 @@ class AuthLoading extends AuthState {}
 //whenever we are prompted for an user changing password
 class AuthAwaitConfirm extends AuthState {
   final String res;
+  final String deliveryMethod;
+  final String username;
 
-  AuthAwaitConfirm({@required this.res});
+  AuthAwaitConfirm(
+      {@required this.res,
+      @required this.deliveryMethod,
+      @required this.username});
 }

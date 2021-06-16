@@ -4,6 +4,6 @@ const FeedRoute = "/FeedScreen";
 
 const HomeRoute = "/";
 
-const ConfirmRoute = "/Confirm";
+const ConfirmRoute = "/ConfirmScreen";
 
 const SignUpRoute = "/SignUpScreen";

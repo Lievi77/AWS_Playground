@@ -1,103 +1,90 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_appsync/business/auth_cubit.dart';
+import 'package:flutter_appsync/presentation/login_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'router/route_constants.dart';
 
-class ConfirmScreen extends StatelessWidget {
-  Widget buildSignInForm(BuildContext context, var _formKey,
-      TextEditingController user, TextEditingController password) {
-    return Center(
-      child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              TextFormField(
-                controller: user,
-                // The validator receives the text that the user has entered.
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null; //a valid form always returns null
-                },
-              ),
-              TextFormField(
-                controller: password,
+class ConfirmationScreen extends StatefulWidget {
+  @override
+  _ConfirmationScreenState createState() => _ConfirmationScreenState();
+}
 
-                obscureText: true,
-                // The validator receives the text that the user has entered.
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
-                  }
-                  return null; //a valid form always returns null
-                },
-              ),
-              ElevatedButton(
+class _ConfirmationScreenState extends State<ConfirmationScreen> {
+  @override
+  Widget build(BuildContext context) {
+    final TextEditingController _conf_code_controller = TextEditingController();
+
+    return Scaffold(
+      appBar: AppBar(),
+      body: Center(
+        child: BlocConsumer<AuthCubit, AuthState>(
+          listener: (context, state) {
+            // TODO: implement listener
+
+            if (state is AuthSuccess) {
+              Navigator.pushNamed(context, SignInRoute);
+            }
+          },
+          builder: (context, state) {
+            if (state is AuthAwaitConfirm) {
+              return CodeConfFiled(
+                controller: _conf_code_controller,
+                deliveryMethod: state.deliveryMethod,
                 onPressed: () {
-                  // Validate returns true if the form is valid, or false otherwise.
-                  if (_formKey.currentState.validate()) {
-                    // If the form is valid, display a snackbar. In the real world,
-                    // you'd often call a server or save the information in a database.
-                    print("~~~OnPressed : ${user.text} , ${password.text}");
-                  }
-                  // ScaffoldMessenger.of(context)
-                  //    .showSnackBar(SnackBar(content: Text('Processing Data')));
-                },
-                child: Text('Submit'),
-              ),
-            ],
-          )),
-    );
-  }
+                  String codeToSend = _conf_code_controller.text;
 
-  Widget buildLoadingIndicator() {
-    return Center(
-      child: CircularProgressIndicator(),
+                  BlocProvider.of<AuthCubit>(context)
+                      .attemptConfirmation(codeToSend, state.username);
+                },
+              );
+            } else if (state is AuthLoading) {
+              return CircularProgressIndicator();
+            } else {
+              return CodeConfFiled(
+                controller: _conf_code_controller,
+                deliveryMethod: "email",
+                onPressed: () {
+                  String codeToSend = _conf_code_controller.text;
+
+                  BlocProvider.of<AuthCubit>(context)
+                      .attemptConfirmation(codeToSend, "xxx");
+                },
+              );
+            }
+          },
+        ),
+      ),
     );
   }
+}
+
+class CodeConfFiled extends StatelessWidget {
+  const CodeConfFiled(
+      {Key key,
+      @required this.deliveryMethod,
+      @required this.controller,
+      @required this.onPressed})
+      : super(key: key);
+
+  final String deliveryMethod;
+  final TextEditingController controller;
+  final Function onPressed;
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>(); //to ID the form
-    TextEditingController user = TextEditingController();
-    TextEditingController password = TextEditingController();
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Confirm Account"),
-      ),
-      body: Center(
-        child: BlocConsumer<AuthCubit, AuthState>(listener: (context, state) {
-          if (state is AuthSuccess) {
-            //redirect to feed page
-
-            Navigator.pushNamed(context, FeedRoute);
-          } else if (state is AuthAwaitConfirm) {
-            print("~~ Awaiting Confirmation");
-
-            Navigator.pushNamed(context, ConfirmRoute);
-          }
-        }, builder: (context, state) {
-          if (state is AuthInitial) {
-            return buildSignInForm(context, _formKey, user, password);
-          } else if (state is AuthLoading) {
-            return buildLoadingIndicator();
-          } else if (state is AuthError) {
-            //(state is AuthError)
-
-            print("${state.message}");
-            return buildSignInForm(
-              context,
-              _formKey,
-              user,
-              password,
-            );
-          }
-          //(state is AuthSuccess)
-          return buildSignInForm(context, _formKey, user, password);
-        }),
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Text("Enter your verification code sent at $deliveryMethod"),
+        TextField(
+          controller: controller,
+        ),
+        MaterialButton(
+          onPressed: onPressed,
+          child: Text("Submit Confirmation Code"),
+          color: Colors.amber,
+        )
+      ],
     );
   }
 }

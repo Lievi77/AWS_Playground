@@ -27,11 +27,10 @@ class AuthProvider {
   }
 
   //TODO: REGISTRATION FLOW
-  Future<dynamic> attemptConfirmation(String username, String password) async {
-    SignInResult res =
-        await Amplify.Auth.signIn(username: username, password: password);
-
-    print('Sign in result (in Provider class): ${res.nextStep.signInStep}');
+  Future<dynamic> attemptConfirmation(String code, username) async {
+    SignUpResult res = await Amplify.Auth.confirmSignUp(
+        username: username, confirmationCode: code);
+    print('Sign in result (in Provider class): ${res.isSignUpComplete}');
 
     return res;
   }
