@@ -95,6 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+//
   @override
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>(); //to ID the form
@@ -122,17 +123,10 @@ class _LoginScreenState extends State<LoginScreen> {
           } else if (state is AuthLoading) {
             return buildLoadingIndicator();
           } else if (state is AuthError) {
-            //(state is AuthError)
-
             print("${state.message}");
-            return buildSignInForm(
-              context,
-              _formKey,
-              user,
-              password,
-            );
+            return buildSignInForm(context, _formKey, user, password);
           }
-          //(state is AuthSuccess)
+
           return buildSignInForm(context, _formKey, user, password);
         }),
       ),

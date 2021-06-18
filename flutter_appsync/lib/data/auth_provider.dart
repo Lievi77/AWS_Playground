@@ -26,7 +26,6 @@ class AuthProvider {
     return res;
   }
 
-  //TODO: REGISTRATION FLOW
   Future<dynamic> attemptConfirmation(String code, username) async {
     SignUpResult res = await Amplify.Auth.confirmSignUp(
         username: username, confirmationCode: code);

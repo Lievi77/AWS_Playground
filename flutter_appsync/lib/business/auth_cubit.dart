@@ -34,7 +34,8 @@ class AuthCubit extends Cubit<AuthState> {
         emit(AuthSuccess());
       }
     } on AuthException catch (e) {
-      emit(AuthError(e.message));
+      emit(AuthError(
+          message: e.message, recoverySuggestion: e.recoverySuggestion));
     }
   }
 
@@ -53,7 +54,8 @@ class AuthCubit extends Cubit<AuthState> {
             username: username));
       }
     } on AuthException catch (e) {
-      emit(AuthError(e.message));
+      emit(AuthError(
+          message: e.message, recoverySuggestion: e.recoverySuggestion));
     }
   }
 
@@ -63,14 +65,11 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       SignUpResult res =
           await _authRepository.attemptConfirmation(code.trim(), username);
-
-      if (res.isSignUpComplete) {
-        emit(AuthSuccess());
-      } else {
-        emit(AuthError("Something went wrong"));
-      }
     } on AuthException catch (e) {
-      emit(AuthError(e.message));
+      emit(AuthError(
+          message: e.message, recoverySuggestion: e.recoverySuggestion));
     }
+
+    emit(AuthSuccess());
   }
 }

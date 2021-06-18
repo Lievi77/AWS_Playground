@@ -24,8 +24,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: Center(
         child: BlocConsumer<AuthCubit, AuthState>(
           listener: (context, state) {
-            // TODO: implement listener
-
             if (state is AuthAwaitConfirm) {
               Navigator.pushNamed(context, ConfirmRoute);
             }

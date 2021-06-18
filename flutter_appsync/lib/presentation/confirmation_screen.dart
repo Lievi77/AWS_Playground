@@ -19,8 +19,6 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
       body: Center(
         child: BlocConsumer<AuthCubit, AuthState>(
           listener: (context, state) {
-            // TODO: implement listener
-
             if (state is AuthSuccess) {
               Navigator.pushNamed(context, SignInRoute);
             }

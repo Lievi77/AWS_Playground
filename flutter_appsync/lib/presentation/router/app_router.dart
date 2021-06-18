@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_appsync/business/auth_cubit.dart';
 import 'package:flutter_appsync/business/connection_cubit.dart';
+import 'package:flutter_appsync/business/reset_password_cubit.dart';
 import 'package:flutter_appsync/business/signup_cubit.dart';
 import 'package:flutter_appsync/presentation/confirmation_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +10,8 @@ import '../feed_screen.dart';
 import '../signup_screen.dart';
 import 'route_constants.dart';
 import '../home_screen.dart';
+import '../recover_password_screen.dart';
+import '../confirmation_password_screen.dart';
 
 class AppRouter {
 //cubit declaration
@@ -18,6 +21,8 @@ class AppRouter {
 // start with least dependent class -> end with most dependent class
   final ConnectionCubit _connectionCubit = ConnectionCubit();
   final AuthCubit _authCubit = AuthCubit();
+  final ResetPasswordCubit _resetPasswordCubit = ResetPasswordCubit();
+  //If a screen uses the same states/cubit instance -> declare it in AppRouter
 
   Route onGenerateRoute(RouteSettings routeSettings) {
     //access with settings.name
@@ -82,6 +87,20 @@ class AppRouter {
       //             title: "Third Screen",
       //           )));
       //   break;
+      case RecoverPasswordRoute:
+        return MaterialPageRoute(
+            builder: (_) => MultiBlocProvider(providers: [
+                  BlocProvider.value(value: _resetPasswordCubit),
+                  BlocProvider.value(value: _connectionCubit)
+                ], child: RecoverPasswordScreen()));
+      case ConfirmPasswordRoute:
+        return MaterialPageRoute(
+            builder: (_) => MultiBlocProvider(providers: [
+                  BlocProvider.value(value: _resetPasswordCubit),
+                  BlocProvider.value(value: _connectionCubit)
+                ], child: ConfirmCodeScreen()));
+        break;
+
       default:
         return null;
     }
@@ -91,5 +110,7 @@ class AppRouter {
 // the cubit doesn't auto close
   void dispose() {
     _authCubit.close();
+    _connectionCubit.close();
+    _resetPasswordCubit.close();
   }
 }

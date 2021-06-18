@@ -1,19 +1,39 @@
-type User @model{
+# Compile Locally: amplify api gql-compile
+# Test your queries locally: amplify mock api
+
+type User @model  {
   id: ID!
   username: String!
-  name: String
-  lastName: String
   # An example of one-to-many relationships
-  # Notice that the keyname abides to: "list all posts byUser"
+  # Notice that the keyName abides to: "list all posts byUser"
   # The fields array is the primary key(s)
-  posts: [Post] @connection(keyName: "byUser", fields:["id"])
-  comments: [Comment] @connection(keyName: "byUser", fields:["id"])
+  posts: [Post] @connection(keyName: "byUser", fields: ["id"])
+  comments: [Comment] @connection(keyName: "byUser", fields: ["id"])
+  urlProfilePic: String # s3 bucket link
+  # Up next, an example of many to many relationships
+
+  blockedUsers: [UserBlock]@connection(keyName: "bySourceUser" ,fields:["id"]) 
+  blockedByUsers: [UserBlock] @connection(keyName: "byBlockedUser", fields:["id"])
+  
+}
+
+# working example of a many-to-many relationship
+type UserBlock @model(queries: null)
+# user 1 is the source User
+@key(name: "bySourceUser" , fields:["sourceUserId", "blockedUserId"] )
+@key(name: "byBlockedUser" , fields:["blockedUserId", "sourceUserId"] ){
+
+id: ID!
+sourceUserId: ID!
+blockedUserId: ID!
+sourceUser: User! @connection(fields: ["sourceUserId"])
+blockedUser: User! @connection(fields: ["blockedUserId"])
+
 }
 
 
 
-type Post @model
-  @key(name: "byUser", fields: ["authorId", "content"]){
+type Post @model @key(name: "byUser", fields: ["authorId", "content"]) {
   id: ID!
   title: String
   content: String
@@ -22,13 +42,9 @@ type Post @model
   author: User @connection(fields: ["authorId"])
 }
 
-
-
-
- type Comment @model
- @key(name: "byUser", fields: ["authorId", "text"]){
-   id: ID!
-   text: String!
-   authorId: ID!
-   author: User @connection(fields : ["authorId"])
- }
+type Comment @model @key(name: "byUser", fields: ["authorId", "text"]) {
+  id: ID!
+  text: String!
+  authorId: ID!
+  author: User @connection(fields: ["authorId"])
+}

@@ -11,8 +11,9 @@ class AuthSuccess extends AuthState {
 
 class AuthError extends AuthState {
   final String message;
+  final String recoverySuggestion;
 
-  AuthError(this.message);
+  AuthError({@required this.message, @required this.recoverySuggestion});
 }
 
 class AuthLoading extends AuthState {}

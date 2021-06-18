@@ -10,6 +10,7 @@ class HomeScreen extends StatelessWidget {
       ),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             MaterialButton(
               child: Text("Sign In"),
@@ -23,7 +24,13 @@ class HomeScreen extends StatelessWidget {
                 color: Colors.green,
                 onPressed: () {
                   Navigator.pushNamed(context, SignUpRoute);
-                })
+                }),
+            MaterialButton(
+                child: Text("Reset Password"),
+                color: Colors.green,
+                onPressed: () {
+                  Navigator.pushNamed(context, RecoverPasswordRoute);
+                }),
           ],
         ),
       ),
