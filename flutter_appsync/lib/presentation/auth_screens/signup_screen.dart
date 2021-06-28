@@ -26,8 +26,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
             if (state is SignUpAwaitConf) {
               Navigator.pushNamed(context, ConfirmRoute);
             }
+
+            if (state is SignUpError) {
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text("${state.message}")));
+            }
           },
           builder: (context, state) {
+            //TODO: WHAT DOES SIGNUPLOADING DISPLAY?
+            //TODO: THEN FIX CONFIRMSCREEN DISPLAY
             return SignUpForm(
                 usr_ctrller: _usr_ctrller, psswd_ctrller: _psswd_ctrller);
           },

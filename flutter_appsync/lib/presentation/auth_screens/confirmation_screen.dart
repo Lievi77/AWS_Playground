@@ -30,8 +30,8 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
                 onPressed: () {
                   String codeToSend = _conf_code_controller.text;
 
-                  BlocProvider.of<LoginCubit>(context)
-                      .attemptConfirmation(codeToSend, state.username);
+                  // BlocProvider.of<LoginCubit>(context)
+                  //     .attemptConfirmation(codeToSend, state.username);
                 },
               );
             } else if (state is LoginLoading) {
@@ -43,8 +43,8 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
                 onPressed: () {
                   String codeToSend = _conf_code_controller.text;
 
-                  BlocProvider.of<LoginCubit>(context)
-                      .attemptConfirmation(codeToSend, "xxx");
+                  // BlocProvider.of<LoginCubit>(context)
+                  //     .attemptConfirmation(codeToSend, "xxx");
                 },
               );
             }

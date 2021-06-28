@@ -73,8 +73,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     // If the form is valid, display a snackbar. In the real world,
                     // you'd often call a server or save the information in a database.
                     print("~~~OnPressed : ${user.text} , ${password.text}");
-                    BlocProvider.of<LoginCubit>(context)
-                        .loginRequest(user.text.trim(), password.text.trim());
+                    // BlocProvider.of<LoginCubit>(context)
+                    //     .loginRequest(user.text.trim(), password.text.trim());
                   }
                   // ScaffoldMessenger.of(context)
                   //    .showSnackBar(SnackBar(content: Text('Processing Data')));
@@ -105,11 +105,11 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       body: Center(
         child: BlocConsumer<LoginCubit, LoginState>(listener: (context, state) {
-          if (state is AuthSuccess) {
+          if (state is LoginSuccess) {
             //redirect to feed page
 
             Navigator.pushNamed(context, FeedRoute);
-          } else if (state is AuthAwaitConfirm) {
+          } else if (state is LoginAwaitConf) {
             print("~~ Awaiting Confirmation");
 
             Navigator.pushNamed(context, ConfirmRoute);
@@ -117,9 +117,9 @@ class _LoginScreenState extends State<LoginScreen> {
         }, builder: (context, state) {
           if (state is LoginInitial) {
             return buildSignInForm(context, _formKey, user, password);
-          } else if (state is AuthLoading) {
+          } else if (state is LoginLoading) {
             return buildLoadingIndicator();
-          } else if (state is AuthError) {
+          } else if (state is LoginError) {
             print("${state.message}");
             return buildSignInForm(context, _formKey, user, password);
           }
