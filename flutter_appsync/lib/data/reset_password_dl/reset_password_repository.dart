@@ -5,11 +5,12 @@ import 'package:amplify_flutter/amplify.dart';
 class ResetPasswordRepository {
   final ResetPasswordProvider _resetPasswordProvider = ResetPasswordProvider();
 
-  Future<ResetPasswordResult> attemptPasswordReset(String email) async {
+  Future<ResetPasswordResult> attemptPasswordReset(
+      String email, ) async {
     //TODO: CONTACT COGNITO
 
-    ResetPasswordResult res =
-        await _resetPasswordProvider.attemptPasswordReset(email.trim());
+    ResetPasswordResult res = await _resetPasswordProvider.attemptPasswordReset(
+        email.trim(), );
 
     return res;
   }

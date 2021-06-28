@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'constants.dart';
+import '../constants/constants.dart';
 import 'package:flutter_appsync/models/Post.dart';
-import 'package:flutter_appsync/business/feed_cubit.dart';
+import 'package:flutter_appsync/business/feed_cubit/feed_cubit.dart';
 
 class FeedScreen extends StatefulWidget {
   @override

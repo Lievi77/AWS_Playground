@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_appsync/business/auth_cubit.dart';
-import 'package:flutter_appsync/business/reset_password_cubit.dart';
-import 'package:flutter_appsync/business/signup_cubit.dart';
+import 'package:flutter_appsync/business/reset_password_cubit/reset_password_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import './router/route_constants.dart';
+import '../../constants/route_constants.dart';
 
 class RecoverPasswordScreen extends StatefulWidget {
   @override

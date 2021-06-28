@@ -1,17 +1,16 @@
 import 'package:amplify_storage_s3/amplify_storage_s3.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_appsync/presentation/home_screen.dart';
-import 'package:flutter_appsync/presentation/login_screen.dart';
+
+import 'package:flutter_appsync/presentation/auth_screens/login_screen.dart';
 import 'package:amplify_flutter/amplify.dart';
 import 'dart:async';
 import 'package:amplify_api/amplify_api.dart';
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_datastore/amplify_datastore.dart';
-import 'package:flutter_appsync/presentation/router/route_constants.dart';
-import 'package:flutter_appsync/presentation/signup_screen.dart';
+import 'package:flutter_appsync/constants/route_constants.dart';
+
 import 'amplifyconfiguration.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_appsync/business/auth_cubit.dart';
+
 import 'presentation/feed_screen.dart';
 import 'models/ModelProvider.dart';
 import 'presentation/router/app_router.dart';

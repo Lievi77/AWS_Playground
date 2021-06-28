@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_appsync/business/auth_cubit.dart';
-import 'package:flutter_appsync/business/signup_cubit.dart';
-import 'package:flutter_appsync/presentation/confirmation_screen.dart';
-import 'package:flutter_appsync/presentation/router/route_constants.dart';
+import 'package:flutter_appsync/business/sign_up_cubit/sign_up_cubit.dart';
+
+import 'package:flutter_appsync/constants/route_constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -22,9 +21,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
         title: Text("Sign Up"),
       ),
       body: Center(
-        child: BlocConsumer<AuthCubit, AuthState>(
+        child: BlocConsumer<SignUpCubit, SignUpState>(
           listener: (context, state) {
-            if (state is AuthAwaitConfirm) {
+            if (state is SignUpAwaitConf) {
               Navigator.pushNamed(context, ConfirmRoute);
             }
           },
@@ -68,8 +67,9 @@ class SignUpForm extends StatelessWidget {
           color: Colors.deepOrange,
           onPressed: () {
             print("Submitting Sign Up");
-            BlocProvider.of<AuthCubit>(context).attemptSignUp(
-                _usr_ctrller.text.trim(), _psswd_ctrller.text.trim());
+
+            BlocProvider.of<SignUpCubit>(context)
+                .attemptSignUp(_usr_ctrller.text, _psswd_ctrller.text);
           },
         )
       ],

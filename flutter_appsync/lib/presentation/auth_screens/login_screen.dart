@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_appsync/business/connection_cubit.dart';
-import 'package:flutter_appsync/presentation/feed_screen.dart';
-import 'package:flutter_appsync/presentation/router/route_constants.dart';
+import 'package:flutter_appsync/business/log_in_cubit/log_in_cubit.dart';
+import 'package:flutter_appsync/constants/route_constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_appsync/business/auth_cubit.dart';
-import 'package:flutter_login/flutter_login.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({this.title});
@@ -76,8 +73,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     // If the form is valid, display a snackbar. In the real world,
                     // you'd often call a server or save the information in a database.
                     print("~~~OnPressed : ${user.text} , ${password.text}");
-                    BlocProvider.of<AuthCubit>(context)
-                        .authRequest(user.text.trim(), password.text.trim());
+                    BlocProvider.of<LoginCubit>(context)
+                        .loginRequest(user.text.trim(), password.text.trim());
                   }
                   // ScaffoldMessenger.of(context)
                   //    .showSnackBar(SnackBar(content: Text('Processing Data')));
@@ -107,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
         title: Text("My Login Screen"),
       ),
       body: Center(
-        child: BlocConsumer<AuthCubit, AuthState>(listener: (context, state) {
+        child: BlocConsumer<LoginCubit, LoginState>(listener: (context, state) {
           if (state is AuthSuccess) {
             //redirect to feed page
 
@@ -118,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Navigator.pushNamed(context, ConfirmRoute);
           }
         }, builder: (context, state) {
-          if (state is AuthInitial) {
+          if (state is LoginInitial) {
             return buildSignInForm(context, _formKey, user, password);
           } else if (state is AuthLoading) {
             return buildLoadingIndicator();

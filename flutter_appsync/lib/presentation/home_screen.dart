@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_appsync/presentation/router/route_constants.dart';
+import 'package:flutter_appsync/constants/route_constants.dart';
 
 class HomeScreen extends StatelessWidget {
   @override

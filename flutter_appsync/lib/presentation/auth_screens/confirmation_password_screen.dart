@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_appsync/business/auth_cubit.dart';
-import 'package:flutter_appsync/business/reset_password_cubit.dart';
+import 'package:flutter_appsync/business/reset_password_cubit/reset_password_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ConfirmCodeScreen extends StatefulWidget {
@@ -41,8 +40,6 @@ class _ConfirmCodeScreenState extends State<ConfirmCodeScreen> {
             MaterialButton(
               onPressed: () {
                 //TODO: IMPLEMENT ON PRESSED
-
-                BlocProvider.of<ResetPasswordCubit>(context).confirmCode();
 
                 print("${this.widget.username}");
               },
