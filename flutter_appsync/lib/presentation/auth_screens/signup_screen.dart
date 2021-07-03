@@ -31,10 +31,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ScaffoldMessenger.of(context)
                   .showSnackBar(SnackBar(content: Text("${state.message}")));
             }
+
+            if (state is SignUpSuccess) {
+              Navigator.pushNamed(context, FeedRoute);
+            }
           },
           builder: (context, state) {
-            //TODO: WHAT DOES SIGNUPLOADING DISPLAY?
-            //TODO: THEN FIX CONFIRMSCREEN DISPLAY
+            if (state is SignUpLoading) {
+              return CircularProgressIndicator();
+            }
+
             return SignUpForm(
                 usr_ctrller: _usr_ctrller, psswd_ctrller: _psswd_ctrller);
           },

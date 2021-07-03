@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_appsync/business/log_in_cubit/log_in_cubit.dart';
+import 'package:flutter_appsync/business/sign_up_cubit/sign_up_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../constants/route_constants.dart';
 
+//screen that asks for the confirmation code
 class ConfirmationScreen extends StatefulWidget {
   @override
   _ConfirmationScreenState createState() => _ConfirmationScreenState();
@@ -16,25 +18,25 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
     return Scaffold(
       appBar: AppBar(),
       body: Center(
-        child: BlocConsumer<LoginCubit, LoginState>(
+        child: BlocConsumer<SignUpCubit, SignUpState>(
           listener: (context, state) {
-            if (state is LoginSuccess) {
+            if (state is SignUpSuccess) {
               Navigator.pushNamed(context, SignInRoute);
             }
           },
           builder: (context, state) {
-            if (state is LoginAwaitConf) {
+            if (state is SignUpAwaitConf) {
               return CodeConfFiled(
                 controller: _conf_code_controller,
                 deliveryMethod: state.deliveryDest,
                 onPressed: () {
                   String codeToSend = _conf_code_controller.text;
 
-                  // BlocProvider.of<LoginCubit>(context)
-                  //     .attemptConfirmation(codeToSend, state.username);
+                  BlocProvider.of<SignUpCubit>(context)
+                      .confirmSignUp(codeToSend, state.username);
                 },
               );
-            } else if (state is LoginLoading) {
+            } else if (state is SignUpLoading) {
               return CircularProgressIndicator();
             } else {
               return CodeConfFiled(
@@ -43,8 +45,8 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
                 onPressed: () {
                   String codeToSend = _conf_code_controller.text;
 
-                  // BlocProvider.of<LoginCubit>(context)
-                  //     .attemptConfirmation(codeToSend, "xxx");
+                  BlocProvider.of<SignUpCubit>(context)
+                      .confirmSignUp(codeToSend, "xxx");
                 },
               );
             }

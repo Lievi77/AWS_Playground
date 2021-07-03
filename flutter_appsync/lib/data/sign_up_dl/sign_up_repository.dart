@@ -20,4 +20,12 @@ class SignUpRepository {
         await _signUpProvider.attemptSignUp(cleanUsername, cleanPassword, attr);
     return res;
   }
+
+  Future<SignUpResult> confirmSignUp(String code, String email) async {
+    //clean input
+    String cleanCode = code.trim();
+    String cleanEmail = email.trim();
+
+    return await _signUpProvider.confirmSignUp(cleanCode, cleanEmail);
+  }
 }

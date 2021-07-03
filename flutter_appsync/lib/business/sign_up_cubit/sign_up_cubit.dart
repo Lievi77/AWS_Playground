@@ -13,6 +13,7 @@ class SignUpCubit extends Cubit<SignUpState> {
 
   static const SignUpRepository _signUpRepository = SignUpRepository();
 
+  //step 1: we sign register the user
   void attemptSignUp(String username, String password) async {
     //assume that input is not yet cleaned up
 
@@ -34,6 +35,28 @@ class SignUpCubit extends Cubit<SignUpState> {
           message: e.message, recoverySuggestion: e.recoverySuggestion));
       print("${e.message}");
       print("${e.recoverySuggestion}");
+    }
+  }
+
+  void confirmSignUp(String code, String email) async {
+    emit(SignUpLoading());
+
+    try {
+      final SignUpResult res =
+          await _signUpRepository.confirmSignUp(code, email);
+
+      //what do we do with res?
+
+      if (res.isSignUpComplete) {
+        emit(SignUpSuccess());
+      } else {
+        emit(SignUpError(
+            message: res.nextStep.signUpStep,
+            recoverySuggestion: res.nextStep.signUpStep));
+      }
+    } on AuthException catch (e) {
+      emit(SignUpError(
+          message: e.message, recoverySuggestion: e.recoverySuggestion));
     }
   }
 }

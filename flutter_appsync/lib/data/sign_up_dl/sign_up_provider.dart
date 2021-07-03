@@ -13,4 +13,10 @@ class SignUpProvider {
         password: password,
         options: CognitoSignUpOptions(userAttributes: attributes));
   }
+
+  Future<SignUpResult> confirmSignUp(String code, String email) async {
+    //need email
+    return await Amplify.Auth.confirmSignUp(
+        username: email, confirmationCode: code);
+  }
 }
