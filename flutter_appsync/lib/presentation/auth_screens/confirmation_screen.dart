@@ -43,10 +43,11 @@ class _ConfirmationScreenState extends State<ConfirmationScreen> {
                 controller: _conf_code_controller,
                 deliveryMethod: "email",
                 onPressed: () {
-                  String codeToSend = _conf_code_controller.text;
-
-                  BlocProvider.of<SignUpCubit>(context)
-                      .confirmSignUp(codeToSend, "xxx");
+                  // String codeToSend = _conf_code_controller.text;
+                  // String email =
+                  //
+                  // BlocProvider.of<SignUpCubit>(context)
+                  //     .confirmSignUp(codeToSend, email);
                 },
               );
             }

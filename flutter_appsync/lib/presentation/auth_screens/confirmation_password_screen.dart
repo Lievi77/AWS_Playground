@@ -41,7 +41,7 @@ class _ConfirmCodeScreenState extends State<ConfirmCodeScreen> {
             MaterialButton(
               onPressed: () {
                 //TODO: IMPLEMENT ON PRESSED
-
+                // BlocProvider<ResetPasswordCubit>.of(context)
                 print("$username");
               },
               child: Text("Submit code"),

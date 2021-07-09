@@ -15,7 +15,7 @@ class SignUpLoading extends SignUpState {
 
 class SignUpAwaitConf extends SignUpState {
   final String username;
-  final String deliveryDest;
+  final String deliveryDest; //i.e, email
 
   const SignUpAwaitConf({this.username, this.deliveryDest});
 }

@@ -24,6 +24,7 @@ class AppRouter {
   final LoginCubit _loginCubit = LoginCubit();
   final ResetPasswordCubit _resetPasswordCubit = ResetPasswordCubit();
   //If a screen uses the same states/cubit instance -> declare it in AppRouter
+  final SignUpCubit _signUpCubit = SignUpCubit();
 
   Route onGenerateRoute(RouteSettings routeSettings) {
     //access with settings.name
@@ -66,15 +67,18 @@ class AppRouter {
                     BlocProvider.value(
                       value: _loginCubit,
                     ),
-                    BlocProvider.value(value: _connectionCubit)
+                    BlocProvider.value(value: _connectionCubit),
+                    BlocProvider.value(value: _signUpCubit)
                   ],
                   child: ConfirmationScreen(),
                 ));
         break;
       case SignUpRoute:
         return MaterialPageRoute(
-            builder: (_) => BlocProvider<SignUpCubit>(
-                create: (context) => SignUpCubit(), child: SignUpScreen()));
+            builder: (_) => BlocProvider.value(
+                  value: _signUpCubit,
+                  child: SignUpScreen(),
+                ));
       // case "/third":
       //   return MaterialPageRoute(
       //       builder: (_) => BlocProvider.value(
@@ -108,5 +112,6 @@ class AppRouter {
     _loginCubit.close();
     _connectionCubit.close();
     _resetPasswordCubit.close();
+    _signUpCubit.close();
   }
 }

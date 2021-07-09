@@ -5,4 +5,7 @@ part 'log_in_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit() : super(LoginInitial());
+
+  //TODO: BUILD THE LOGIN METHOD
+
 }

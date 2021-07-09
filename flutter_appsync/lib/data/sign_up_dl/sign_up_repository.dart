@@ -22,6 +22,8 @@ class SignUpRepository {
   }
 
   Future<SignUpResult> confirmSignUp(String code, String email) async {
+    print("~In Repository: $code, $email ");
+
     //clean input
     String cleanCode = code.trim();
     String cleanEmail = email.trim();

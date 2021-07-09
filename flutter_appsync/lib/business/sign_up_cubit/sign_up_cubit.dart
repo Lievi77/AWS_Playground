@@ -5,6 +5,8 @@ import 'package:meta/meta.dart';
 
 part 'sign_up_state.dart';
 
+//SIGN UP STATE COMPLETED
+
 class SignUpCubit extends Cubit<SignUpState> {
   SignUpCubit() : super(SignUpInitial());
 
@@ -28,7 +30,8 @@ class SignUpCubit extends Cubit<SignUpState> {
         //After, we need to confirm the user
         emit(SignUpAwaitConf(
             deliveryDest: res.nextStep.codeDeliveryDetails.destination,
-            username: res.nextStep.additionalInfo['username']));
+            //we need the username to confirm the account
+            username: username));
       }
     } on AuthException catch (e) {
       emit(SignUpError(
