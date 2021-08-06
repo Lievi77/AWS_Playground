@@ -50,12 +50,12 @@ class _MyAppState extends State<MyApp> {
       //
       // note that Amplify cannot be configured more than once!
       await Amplify.configure(amplifyconfig);
+      print("~~~~ Amplify Init Successful");
     } catch (e) {
       // error handling can be improved for sure!
       // but this will be sufficient for the purposes of this tutorial
       print('An error occurred while configuring Amplify: $e');
     }
-    print("~~~~ Amplify Init Successful");
   }
 
   void _initApp() async {

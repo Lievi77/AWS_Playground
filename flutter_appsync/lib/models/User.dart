@@ -26,10 +26,11 @@ class User extends Model {
   static const classType = const _UserModelType();
   final String id;
   final String username;
-  final String name;
-  final String lastName;
   final List<Post> posts;
   final List<Comment> comments;
+  final String urlProfilePic;
+  final List<UserBlock> blockedUsers;
+  final List<UserBlock> blockedByUsers;
 
   @override
   getInstanceType() => classType;
@@ -42,25 +43,32 @@ class User extends Model {
   const User._internal(
       {@required this.id,
       @required this.username,
-      this.name,
-      this.lastName,
       this.posts,
-      this.comments});
+      this.comments,
+      this.urlProfilePic,
+      this.blockedUsers,
+      this.blockedByUsers});
 
   factory User(
       {String id,
       @required String username,
-      String name,
-      String lastName,
       List<Post> posts,
-      List<Comment> comments}) {
+      List<Comment> comments,
+      String urlProfilePic,
+      List<UserBlock> blockedUsers,
+      List<UserBlock> blockedByUsers}) {
     return User._internal(
         id: id == null ? UUID.getUUID() : id,
         username: username,
-        name: name,
-        lastName: lastName,
         posts: posts != null ? List.unmodifiable(posts) : posts,
-        comments: comments != null ? List.unmodifiable(comments) : comments);
+        comments: comments != null ? List.unmodifiable(comments) : comments,
+        urlProfilePic: urlProfilePic,
+        blockedUsers: blockedUsers != null
+            ? List.unmodifiable(blockedUsers)
+            : blockedUsers,
+        blockedByUsers: blockedByUsers != null
+            ? List.unmodifiable(blockedByUsers)
+            : blockedByUsers);
   }
 
   bool equals(Object other) {
@@ -73,10 +81,11 @@ class User extends Model {
     return other is User &&
         id == other.id &&
         username == other.username &&
-        name == other.name &&
-        lastName == other.lastName &&
         DeepCollectionEquality().equals(posts, other.posts) &&
-        DeepCollectionEquality().equals(comments, other.comments);
+        DeepCollectionEquality().equals(comments, other.comments) &&
+        urlProfilePic == other.urlProfilePic &&
+        DeepCollectionEquality().equals(blockedUsers, other.blockedUsers) &&
+        DeepCollectionEquality().equals(blockedByUsers, other.blockedByUsers);
   }
 
   @override
@@ -89,8 +98,7 @@ class User extends Model {
     buffer.write("User {");
     buffer.write("id=" + "$id" + ", ");
     buffer.write("username=" + "$username" + ", ");
-    buffer.write("name=" + "$name" + ", ");
-    buffer.write("lastName=" + "$lastName");
+    buffer.write("urlProfilePic=" + "$urlProfilePic");
     buffer.write("}");
 
     return buffer.toString();
@@ -99,24 +107,24 @@ class User extends Model {
   User copyWith(
       {String id,
       String username,
-      String name,
-      String lastName,
       List<Post> posts,
-      List<Comment> comments}) {
+      List<Comment> comments,
+      String urlProfilePic,
+      List<UserBlock> blockedUsers,
+      List<UserBlock> blockedByUsers}) {
     return User(
         id: id ?? this.id,
         username: username ?? this.username,
-        name: name ?? this.name,
-        lastName: lastName ?? this.lastName,
         posts: posts ?? this.posts,
-        comments: comments ?? this.comments);
+        comments: comments ?? this.comments,
+        urlProfilePic: urlProfilePic ?? this.urlProfilePic,
+        blockedUsers: blockedUsers ?? this.blockedUsers,
+        blockedByUsers: blockedByUsers ?? this.blockedByUsers);
   }
 
   User.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         username = json['username'],
-        name = json['name'],
-        lastName = json['lastName'],
         posts = json['posts'] is List
             ? (json['posts'] as List)
                 .map((e) => Post.fromJson(new Map<String, dynamic>.from(e)))
@@ -126,21 +134,33 @@ class User extends Model {
             ? (json['comments'] as List)
                 .map((e) => Comment.fromJson(new Map<String, dynamic>.from(e)))
                 .toList()
+            : null,
+        urlProfilePic = json['urlProfilePic'],
+        blockedUsers = json['blockedUsers'] is List
+            ? (json['blockedUsers'] as List)
+                .map(
+                    (e) => UserBlock.fromJson(new Map<String, dynamic>.from(e)))
+                .toList()
+            : null,
+        blockedByUsers = json['blockedByUsers'] is List
+            ? (json['blockedByUsers'] as List)
+                .map(
+                    (e) => UserBlock.fromJson(new Map<String, dynamic>.from(e)))
+                .toList()
             : null;
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'username': username,
-        'name': name,
-        'lastName': lastName,
         'posts': posts?.map((e) => e?.toJson())?.toList(),
-        'comments': comments?.map((e) => e?.toJson())?.toList()
+        'comments': comments?.map((e) => e?.toJson())?.toList(),
+        'urlProfilePic': urlProfilePic,
+        'blockedUsers': blockedUsers?.map((e) => e?.toJson())?.toList(),
+        'blockedByUsers': blockedByUsers?.map((e) => e?.toJson())?.toList()
       };
 
   static final QueryField ID = QueryField(fieldName: "user.id");
   static final QueryField USERNAME = QueryField(fieldName: "username");
-  static final QueryField NAME = QueryField(fieldName: "name");
-  static final QueryField LASTNAME = QueryField(fieldName: "lastName");
   static final QueryField POSTS = QueryField(
       fieldName: "posts",
       fieldType: ModelFieldType(ModelFieldTypeEnum.model,
@@ -149,6 +169,16 @@ class User extends Model {
       fieldName: "comments",
       fieldType: ModelFieldType(ModelFieldTypeEnum.model,
           ofModelName: (Comment).toString()));
+  static final QueryField URLPROFILEPIC =
+      QueryField(fieldName: "urlProfilePic");
+  static final QueryField BLOCKEDUSERS = QueryField(
+      fieldName: "blockedUsers",
+      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
+          ofModelName: (UserBlock).toString()));
+  static final QueryField BLOCKEDBYUSERS = QueryField(
+      fieldName: "blockedByUsers",
+      fieldType: ModelFieldType(ModelFieldTypeEnum.model,
+          ofModelName: (UserBlock).toString()));
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
     modelSchemaDefinition.name = "User";
@@ -159,16 +189,6 @@ class User extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
         key: User.USERNAME,
         isRequired: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: User.NAME,
-        isRequired: false,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
-
-    modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: User.LASTNAME,
-        isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
@@ -182,6 +202,23 @@ class User extends Model {
         isRequired: false,
         ofModelName: (Comment).toString(),
         associatedKey: Comment.AUTHOR));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: User.URLPROFILEPIC,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+        key: User.BLOCKEDUSERS,
+        isRequired: false,
+        ofModelName: (UserBlock).toString(),
+        associatedKey: UserBlock.SOURCEUSER));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(
+        key: User.BLOCKEDBYUSERS,
+        isRequired: false,
+        ofModelName: (UserBlock).toString(),
+        associatedKey: UserBlock.BLOCKEDUSER));
   });
 }
 

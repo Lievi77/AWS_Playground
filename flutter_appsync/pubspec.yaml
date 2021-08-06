@@ -27,13 +27,17 @@ dependencies:
   amplify_storage_s3: <1.0.0
   bloc: ^7.0.0
   bloc_test: ^8.0.2
+  mockito:
   test:
-  flutter_login: ^2.0.0
+  flutter_test:
+    sdk: flutter
   equatable: ^2.0.3
   flutter_bloc: ^7.0.1
   flutter_blue: ^0.8.0 #bluetooth
-  connectivity_plus: ^1.0.3
+  connectivity_plus: ^1.0.5
   json_serializable: ^4.1.3
+  flutter_driver: #integration testing
+    sdk: flutter
 
 
 

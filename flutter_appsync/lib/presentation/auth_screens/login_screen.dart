@@ -73,8 +73,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     // If the form is valid, display a snackbar. In the real world,
                     // you'd often call a server or save the information in a database.
                     print("~~~OnPressed : ${user.text} , ${password.text}");
-                    // BlocProvider.of<LoginCubit>(context)
-                    //     .loginRequest(user.text.trim(), password.text.trim());
+                    BlocProvider.of<LoginCubit>(context)
+                        .attemptLogin(user.text.trim(), password.text.trim());
                   }
                   // ScaffoldMessenger.of(context)
                   //    .showSnackBar(SnackBar(content: Text('Processing Data')));

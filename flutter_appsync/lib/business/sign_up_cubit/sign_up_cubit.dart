@@ -48,8 +48,6 @@ class SignUpCubit extends Cubit<SignUpState> {
       final SignUpResult res =
           await _signUpRepository.confirmSignUp(code, email);
 
-      //what do we do with res?
-
       if (res.isSignUpComplete) {
         emit(SignUpSuccess());
       } else {
