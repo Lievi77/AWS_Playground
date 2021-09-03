@@ -1,4 +1,5 @@
 import 'package:app_sync_test/presentation/widgets/my_input_field.dart';
+import 'package:app_sync_test/router/routing_constants.dart';
 import 'package:flutter/material.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -46,7 +47,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             ),
             MaterialButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, ConfirmCodeRoute);
+              },
               color: Colors.greenAccent,
               child: Text("Register"),
             ),

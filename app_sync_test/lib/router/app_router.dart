@@ -1,3 +1,4 @@
+import 'package:app_sync_test/presentation/confirm_code.dart';
 import 'package:app_sync_test/presentation/landing_screen.dart';
 import 'package:app_sync_test/presentation/new_user_screen.dart';
 import 'package:app_sync_test/router/routing_constants.dart';
@@ -12,6 +13,9 @@ class AppRouter {
 
       case NewUserRoute:
         return MaterialPageRoute(builder: (_) => RegisterScreen());
+
+      case ConfirmCodeRoute:
+        return MaterialPageRoute(builder: (_) => ConfirmCodeScreen());
 
       default:
         return MaterialPageRoute(builder: (_) => LandingScreen());
