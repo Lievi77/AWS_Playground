@@ -1,5 +1,5 @@
 /*
-* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License").
 * You may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ class User extends Model {
   static const classType = const _UserModelType();
   final String id;
   final String username;
+  final String email;
   final List<Post> posts;
   final List<Comment> comments;
   final String urlProfilePic;
@@ -43,6 +44,7 @@ class User extends Model {
   const User._internal(
       {@required this.id,
       @required this.username,
+      this.email,
       this.posts,
       this.comments,
       this.urlProfilePic,
@@ -52,6 +54,7 @@ class User extends Model {
   factory User(
       {String id,
       @required String username,
+      String email,
       List<Post> posts,
       List<Comment> comments,
       String urlProfilePic,
@@ -60,14 +63,16 @@ class User extends Model {
     return User._internal(
         id: id == null ? UUID.getUUID() : id,
         username: username,
-        posts: posts != null ? List.unmodifiable(posts) : posts,
-        comments: comments != null ? List.unmodifiable(comments) : comments,
+        email: email,
+        posts: posts != null ? List<Post>.unmodifiable(posts) : posts,
+        comments:
+            comments != null ? List<Comment>.unmodifiable(comments) : comments,
         urlProfilePic: urlProfilePic,
         blockedUsers: blockedUsers != null
-            ? List.unmodifiable(blockedUsers)
+            ? List<UserBlock>.unmodifiable(blockedUsers)
             : blockedUsers,
         blockedByUsers: blockedByUsers != null
-            ? List.unmodifiable(blockedByUsers)
+            ? List<UserBlock>.unmodifiable(blockedByUsers)
             : blockedByUsers);
   }
 
@@ -81,6 +86,7 @@ class User extends Model {
     return other is User &&
         id == other.id &&
         username == other.username &&
+        email == other.email &&
         DeepCollectionEquality().equals(posts, other.posts) &&
         DeepCollectionEquality().equals(comments, other.comments) &&
         urlProfilePic == other.urlProfilePic &&
@@ -98,6 +104,7 @@ class User extends Model {
     buffer.write("User {");
     buffer.write("id=" + "$id" + ", ");
     buffer.write("username=" + "$username" + ", ");
+    buffer.write("email=" + "$email" + ", ");
     buffer.write("urlProfilePic=" + "$urlProfilePic");
     buffer.write("}");
 
@@ -107,6 +114,7 @@ class User extends Model {
   User copyWith(
       {String id,
       String username,
+      String email,
       List<Post> posts,
       List<Comment> comments,
       String urlProfilePic,
@@ -115,6 +123,7 @@ class User extends Model {
     return User(
         id: id ?? this.id,
         username: username ?? this.username,
+        email: email ?? this.email,
         posts: posts ?? this.posts,
         comments: comments ?? this.comments,
         urlProfilePic: urlProfilePic ?? this.urlProfilePic,
@@ -125,6 +134,7 @@ class User extends Model {
   User.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         username = json['username'],
+        email = json['email'],
         posts = json['posts'] is List
             ? (json['posts'] as List)
                 .map((e) => Post.fromJson(new Map<String, dynamic>.from(e)))
@@ -152,6 +162,7 @@ class User extends Model {
   Map<String, dynamic> toJson() => {
         'id': id,
         'username': username,
+        'email': email,
         'posts': posts?.map((e) => e?.toJson())?.toList(),
         'comments': comments?.map((e) => e?.toJson())?.toList(),
         'urlProfilePic': urlProfilePic,
@@ -161,6 +172,7 @@ class User extends Model {
 
   static final QueryField ID = QueryField(fieldName: "user.id");
   static final QueryField USERNAME = QueryField(fieldName: "username");
+  static final QueryField EMAIL = QueryField(fieldName: "email");
   static final QueryField POSTS = QueryField(
       fieldName: "posts",
       fieldType: ModelFieldType(ModelFieldTypeEnum.model,
@@ -189,6 +201,11 @@ class User extends Model {
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
         key: User.USERNAME,
         isRequired: true,
+        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+
+    modelSchemaDefinition.addField(ModelFieldDefinition.field(
+        key: User.EMAIL,
+        isRequired: false,
         ofType: ModelFieldType(ModelFieldTypeEnum.string)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.hasMany(

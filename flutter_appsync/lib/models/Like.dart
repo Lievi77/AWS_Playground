@@ -19,13 +19,13 @@ import 'ModelProvider.dart';
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'package:flutter/foundation.dart';
 
-/** This is an auto generated class representing the Comment type in your schema. */
+/** This is an auto generated class representing the Like type in your schema. */
 @immutable
-class Comment extends Model {
-  static const classType = const _CommentModelType();
+class Like extends Model {
+  static const classType = const _LikeModelType();
   final String id;
-  final String text;
-  final User author;
+  final TemporalDateTime date;
+  final User user;
 
   @override
   getInstanceType() => classType;
@@ -35,12 +35,11 @@ class Comment extends Model {
     return id;
   }
 
-  const Comment._internal(
-      {@required this.id, @required this.text, this.author});
+  const Like._internal({@required this.id, this.date, this.user});
 
-  factory Comment({String id, @required String text, User author}) {
-    return Comment._internal(
-        id: id == null ? UUID.getUUID() : id, text: text, author: author);
+  factory Like({String id, TemporalDateTime date, User user}) {
+    return Like._internal(
+        id: id == null ? UUID.getUUID() : id, date: date, user: user);
   }
 
   bool equals(Object other) {
@@ -50,10 +49,10 @@ class Comment extends Model {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is Comment &&
+    return other is Like &&
         id == other.id &&
-        text == other.text &&
-        author == other.author;
+        date == other.date &&
+        user == other.user;
   }
 
   @override
@@ -63,63 +62,63 @@ class Comment extends Model {
   String toString() {
     var buffer = new StringBuffer();
 
-    buffer.write("Comment {");
+    buffer.write("Like {");
     buffer.write("id=" + "$id" + ", ");
-    buffer.write("text=" + "$text" + ", ");
-    buffer.write("author=" + (author != null ? author.toString() : "null"));
+    buffer.write("date=" + (date != null ? date.format() : "null") + ", ");
+    buffer.write("user=" + (user != null ? user.toString() : "null"));
     buffer.write("}");
 
     return buffer.toString();
   }
 
-  Comment copyWith({String id, String text, User author}) {
-    return Comment(
-        id: id ?? this.id,
-        text: text ?? this.text,
-        author: author ?? this.author);
+  Like copyWith({String id, TemporalDateTime date, User user}) {
+    return Like(
+        id: id ?? this.id, date: date ?? this.date, user: user ?? this.user);
   }
 
-  Comment.fromJson(Map<String, dynamic> json)
+  Like.fromJson(Map<String, dynamic> json)
       : id = json['id'],
-        text = json['text'],
-        author = json['author'] != null
-            ? User.fromJson(new Map<String, dynamic>.from(json['author']))
+        date = json['date'] != null
+            ? TemporalDateTime.fromString(json['date'])
+            : null,
+        user = json['user'] != null
+            ? User.fromJson(new Map<String, dynamic>.from(json['user']))
             : null;
 
   Map<String, dynamic> toJson() =>
-      {'id': id, 'text': text, 'author': author?.toJson()};
+      {'id': id, 'date': date?.format(), 'user': user?.toJson()};
 
-  static final QueryField ID = QueryField(fieldName: "comment.id");
-  static final QueryField TEXT = QueryField(fieldName: "text");
-  static final QueryField AUTHOR = QueryField(
-      fieldName: "author",
+  static final QueryField ID = QueryField(fieldName: "like.id");
+  static final QueryField DATE = QueryField(fieldName: "date");
+  static final QueryField USER = QueryField(
+      fieldName: "user",
       fieldType: ModelFieldType(ModelFieldTypeEnum.model,
           ofModelName: (User).toString()));
   static var schema =
       Model.defineSchema(define: (ModelSchemaDefinition modelSchemaDefinition) {
-    modelSchemaDefinition.name = "Comment";
-    modelSchemaDefinition.pluralName = "Comments";
+    modelSchemaDefinition.name = "Like";
+    modelSchemaDefinition.pluralName = "Likes";
 
     modelSchemaDefinition.addField(ModelFieldDefinition.id());
 
     modelSchemaDefinition.addField(ModelFieldDefinition.field(
-        key: Comment.TEXT,
-        isRequired: true,
-        ofType: ModelFieldType(ModelFieldTypeEnum.string)));
+        key: Like.DATE,
+        isRequired: false,
+        ofType: ModelFieldType(ModelFieldTypeEnum.dateTime)));
 
     modelSchemaDefinition.addField(ModelFieldDefinition.belongsTo(
-        key: Comment.AUTHOR,
+        key: Like.USER,
         isRequired: false,
-        targetName: "authorId",
+        targetName: "userId",
         ofModelName: (User).toString()));
   });
 }
 
-class _CommentModelType extends ModelType<Comment> {
-  const _CommentModelType();
+class _LikeModelType extends ModelType<Like> {
+  const _LikeModelType();
 
   @override
-  Comment fromJson(Map<String, dynamic> jsonData) {
-    return Comment.fromJson(jsonData);
+  Like fromJson(Map<String, dynamic> jsonData) {
+    return Like.fromJson(jsonData);
   }
 }

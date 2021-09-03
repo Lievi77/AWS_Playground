@@ -1,5 +1,5 @@
 /*
-* Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+* Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 *
 * Licensed under the Apache License, Version 2.0 (the "License").
 * You may not use this file except in compliance with the License.
@@ -17,21 +17,24 @@
 
 import 'package:amplify_datastore_plugin_interface/amplify_datastore_plugin_interface.dart';
 import 'Comment.dart';
+import 'Like.dart';
 import 'Post.dart';
 import 'User.dart';
 import 'UserBlock.dart';
 
 export 'Comment.dart';
+export 'Like.dart';
 export 'Post.dart';
 export 'User.dart';
 export 'UserBlock.dart';
 
 class ModelProvider implements ModelProviderInterface {
   @override
-  String version = "e36a6a5fa97d84cbd21e837d517c5120";
+  String version = "a130a77c3e48a7e91c826b57a371ad45";
   @override
   List<ModelSchema> modelSchemas = [
     Comment.schema,
+    Like.schema,
     Post.schema,
     User.schema,
     UserBlock.schema
@@ -45,6 +48,11 @@ class ModelProvider implements ModelProviderInterface {
       case "Comment":
         {
           return Comment.classType;
+        }
+        break;
+      case "Like":
+        {
+          return Like.classType;
         }
         break;
       case "Post":

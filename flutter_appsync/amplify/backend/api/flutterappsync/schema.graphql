@@ -4,6 +4,7 @@
 type User @model  {
   id: ID!
   username: String!
+  email: AWSEmail
   # An example of one-to-many relationships
   # Notice that the keyName abides to: "list all posts byUser"
   # The fields array is the primary key(s)
@@ -32,14 +33,30 @@ blockedUser: User! @connection(fields: ["blockedUserId"])
 }
 
 
-
-type Post @model @key(name: "byUser", fields: ["authorId", "content"]) {
+#Pro tip: user AWS integrated types
+type Post @model @key(name: "byUser", fields: ["authorId", "caption"]) {
   id: ID!
-  title: String
-  content: String
   authorId: ID!
   # Has one relationship example
   author: User @connection(fields: ["authorId"])
+
+  date: AWSDateTime
+  caption: String
+  mediaURL: AWSURL # Points to an S3 bucket link
+  location: String # Might need to use Google API
+
+  likes: [Like] @connection(keyName: "byPost" , fields: ["id"] ) # The fields argument serves as the CONNECTING ARGUMENT
+}
+
+#type RoutePost @model @key(name: "byUser", fields: ["authorId"])
+
+type Like @model @key(name: "byPost", fields: ["id"]) {
+
+  id: ID!
+  userId: ID! # The id of the user who liked this post
+  date: AWSDateTime #the time the like was given
+  user: User @connection(fields: ["userId"])
+
 }
 
 type Comment @model @key(name: "byUser", fields: ["authorId", "text"]) {
