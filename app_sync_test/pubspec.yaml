@@ -32,6 +32,9 @@ dependencies:
   flutter_bloc: ^7.2.0
   hydrated_bloc: ^7.0.1
 
+  # AWS Stuff
+  amplify_flutter: ^0.2.2
+  amplify_auth_cognito: ^0.2.2
 
 dev_dependencies:
   bloc_test: ^8.1.0
