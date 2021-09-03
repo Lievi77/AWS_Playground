@@ -18,13 +18,40 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          MyInputField(
-            controller: _nameCtrller,
-            hint: "Enter your name",
-          ),
-        ],
+      appBar: AppBar(
+        title: Text("New User"),
+      ),
+      body: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            MyInputField(
+              controller: _nameCtrller,
+              hint: "Enter your name",
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: MyInputField(
+                controller: _emailCtrller,
+                hint: "Enter your email",
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: MyInputField(
+                controller: _passwordCtrller,
+                hint: "Enter your password",
+              ),
+            ),
+            MaterialButton(
+              onPressed: () {},
+              color: Colors.greenAccent,
+              child: Text("Register"),
+            ),
+          ],
+        ),
       ),
     );
   }

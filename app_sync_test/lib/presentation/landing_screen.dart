@@ -1,4 +1,5 @@
 import 'package:app_sync_test/presentation/widgets/my_input_field.dart';
+import 'package:app_sync_test/router/routing_constants.dart';
 import 'package:flutter/material.dart';
 
 //Landing screen == Login Screen in this app
@@ -43,7 +44,9 @@ class _LandingScreenState extends State<LandingScreen> {
               child: Text("Login"),
             ),
             MaterialButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, NewUserRoute);
+              },
               color: Colors.greenAccent,
               child: Text("Register"),
             )
