@@ -1,1 +1,3 @@
-const String LandingRoute = '/';
+const LandingRoute = '/';
+
+const NewUserRoute = '/Register';
